@@ -7,16 +7,18 @@ To build and install the binary just type something similar to
   gtar zxvf ~/import/smvflatten-<VERSION>-src.tar.gz
   cd smvflatten
   ./configure
+  # adjust the generated Makefile
   make
   install -m 755 bin/smvflatten /usr/local/bin
 
-or if you have the test cases
+or if you have the test cases as well
 
   cd /usr/local/src
   gtar zxvf ~/import/smvflatten-<VERSION>-src.tar.gz
   gtar zxvf ~/import/smvflatten-<VERSION>-tst.tar.gz
   cd smvflatten
   ./configure
+  # adjust the generated Makefile
   make
   ./test/run
   install -m 755 bin/smvflatten /usr/local/bin
