@@ -25,7 +25,7 @@
 
 /*------------------------------------------------------------------------*/
 
-char * smvflatten_id = "$Id: main.c,v 1.2 2000-04-18 11:45:06 biere Exp $";
+static char * id = "$Id: main.c,v 1.3 2000-04-26 07:59:01 biere Exp $";
 
 /*------------------------------------------------------------------------*/
 
@@ -84,6 +84,16 @@ static Mode mode = EXTRACT_MACROS;
 
 /*------------------------------------------------------------------------*/
 
+static void print_version(void)
+{
+  printf(
+    "smvflatten version " VERSION "\n"
+    "(C)opyright 2000 by Armin Biere\n"
+    "%s\n", id);
+}
+
+/*------------------------------------------------------------------------*/
+
 static void usage(void)
 {
   printf(
@@ -95,7 +105,7 @@ static void usage(void)
 "  where options is a list of the following options\n"
 "\n"
 "    -h           print this summary\n"
-"    -version     print version on stdout\n"
+"    --version    print version on stdout\n"
 "    -v[0-9]      set verbose level\n"
 "\n"
 "    -p[p]        stop after parsing                   (phase 0)\n"
@@ -310,9 +320,9 @@ int main(int argc, char ** argv)
 	  mode = EXTRACT_ASSIGNMENTS;
 	}
       else
-      if(strcmp(argv[i], "-version") == 0)
+      if(strcmp(argv[i], "--version") == 0)
         {
-	  printf("%s\n", VERSION);
+	  print_version();
 	  exit(0);
 	}
       else
