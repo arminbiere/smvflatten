@@ -1432,7 +1432,7 @@ Node * new_oracle(void)
 {
   Node * res;
 
-  res = gensym("ORACLE");
+  res = gensym(".ORACLE");
 
   return res;
 }
@@ -1443,7 +1443,7 @@ Node * new_running(void)
 {
   Node * res;
 
-  res = gensym("RUNNING");
+  res = gensym(".RUNNING");
 
   return res;
 }
@@ -1454,7 +1454,7 @@ Node * new_macro(void)
 {
   Node * res;
 
-  res = gensym("MACRO");
+  res = gensym(".MACRO");
 
   return res;
 }

@@ -478,19 +478,13 @@ static void pr_identifier(const char * id, FILE * file)
 
   if(mangle_identifiers)
     {
-      if(strcmp(id, "RUNNING") == 0) 
-        {
-	  fputs("*** smvflatten: can not mangle `RUNNING'\n", stderr);
-	  exit(1);
-	}
-      else
-      if(strcmp(id, "running") == 0) fputs("RUNNING", file);
-      else
+      for(p = id; *p; p++)
 	{
-	  for(p = id; *p; p++)
+	  switch(*p)
 	    {
-	      if(*p == '_') fputs("___", file);
-	      else fputc(*p, file);
+	      case '_': fputs("___", file); break;
+	      case '.': fputs("_o_", file); break;
+	      default: fputc(*p, file); break;
 	    }
 	}
     }
