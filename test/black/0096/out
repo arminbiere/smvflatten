@@ -2,9 +2,9 @@ MODULE main
 VAR
   request : boolean;
   state@0 : boolean; --TYPE-- busy ready
-  ORACLE0@0 : boolean; --TYPE-- busy ready
+  .ORACLE0@0 : boolean; --TYPE-- busy ready
 ASSIGN
   init(state@0) := 1;
-  next(state@0) := ORACLE0@0 & (!request | !state@0);
+  next(state@0) := .ORACLE0@0 & (!request | !state@0);
 SPEC
   AG (!request | AF !state@0)

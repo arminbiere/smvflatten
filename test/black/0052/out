@@ -13,9 +13,9 @@ VAR
   receiver.data : boolean;
   r2s_in.tag : {ack0, ack1, error, mt};
   r2s_out.tag : {ack0, ack1, error, mt};
-  ORACLE0 : boolean;
-  ORACLE1 : boolean;
-  ORACLE2 : boolean;
+  .ORACLE0 : boolean;
+  .ORACLE1 : boolean;
+  .ORACLE2 : boolean;
 ASSIGN
   init(sender.state) := get;
   init(sender.abp) := 0;
@@ -45,7 +45,7 @@ ASSIGN
     case
       running = sender :
         case
-          sender.state = wait_for_ack & (!sender.abp & r2s_out.tag = ack0 | sender.abp & r2s_out.tag = ack1) : ORACLE0;
+          sender.state = wait_for_ack & (!sender.abp & r2s_out.tag = ack0 | sender.abp & r2s_out.tag = ack1) : .ORACLE0;
           1 : sender.data;
         esac;
       1 : sender.data;
@@ -93,7 +93,7 @@ ASSIGN
         case
           r2s_out.tag = mt & !r2s_in.tag = mt :
             case
-              ORACLE1 : r2s_in.tag;
+              .ORACLE1 : r2s_in.tag;
               1 : error;
             esac;
           1 : r2s_out.tag;
@@ -129,7 +129,7 @@ ASSIGN
         case
           s2r_out.tag = mt & !s2r_in.tag = mt :
             case
-              ORACLE2 : s2r_in.tag;
+              .ORACLE2 : s2r_in.tag;
               1 : error;
             esac;
           1 : s2r_out.tag;

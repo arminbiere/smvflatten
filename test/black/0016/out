@@ -2,13 +2,13 @@ MODULE main
 VAR
   a : boolean;
   b : {drei, eins, fuenf, vier, zwei};
-  ORACLE0 : boolean;
-  ORACLE1 : {drei, eins, fuenf};
-  ORACLE2 : {vier, zwei};
+  .ORACLE0 : boolean;
+  .ORACLE1 : {drei, eins, fuenf};
+  .ORACLE2 : {vier, zwei};
 ASSIGN
-  init(a) := ORACLE0;
+  init(a) := .ORACLE0;
   next(b) :=
     case
-      a : ORACLE1;
-      1 : ORACLE2;
+      a : .ORACLE1;
+      1 : .ORACLE2;
     esac;

@@ -1,5 +1,0 @@
-#!/bin/sh
-
-cd `dirname $0`
-rm -rf core tmp
-rm -f smvflatten

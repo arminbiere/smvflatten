@@ -1,6 +1,6 @@
 MODULE main
 VAR
   a : boolean;
-  ORACLE0 : boolean;
+  .ORACLE0 : boolean;
 ASSIGN
-  next(a) := ORACLE0;
+  next(a) := .ORACLE0;
