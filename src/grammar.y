@@ -19,7 +19,9 @@ extern char yytext[];
 
 /*------------------------------------------------------------------------*/
 
+/*
 #define YYSTYPE Node *
+*/
 
 int yyerror(const char * fmt, ...);
 char * yyin_name = 0;
@@ -33,75 +35,34 @@ Node * yyparse_result = 0;
 /*------------------------------------------------------------------------*/
 %}
 
-%token A
-%token ACCESS
-%token AF
-%token AG
-%token AND
-%token ARRAY
-%token ASSIGN
-%token AT
-%token ATOM
-%token AU
-%token AX
-%token BOOLEAN
-%token CASE
-%token COLON
-%token COMPUTE
-%token DECL
-%token DEFINE
-%token DEFINEASSIGNMENT
-%token DIVIDE
-%token DOT
-%token E
-%token EF
-%token EG
-%token ENUM
-%token EQDEF
-%token EQUAL
-%token ESAC
-%token EU
-%token EX
-%token FAIRNESS
-%token GE
-%token GT
-%token IFF
-%token IMPLIES
-%token INIT
-%token INITASSIGNMENT
-%token INSTANCE
-%token INVAR
-%token INVARASSIGNMENT
-%token ISA
-%token LE
-%token LIST
-%token LT
-%token MAX
-%token MIN
-%token MINU
-%token MINUS
-%token MOD
-%token MODULE
-%token NEXT
-%token NOT
-%token NOTEQUAL
-%token NUMBER
-%token OF
-%token OR
-%token PLUS
-%token PROCESS
-%token SETIN
-%token SETNOTIN
-%token SMALLINIT
-%token SPEC
-%token TIMES
-%token TRANS
-%token TRANSASSIGNMENT
-%token TWODOTS
-%token UMINUS
-%token UNION
-%token UNTIL
-%token VAR
+%union {
+  Node * node;
+};
+
+%token A ACCESS AF AG AND ARRAY ASSIGN AT ATOM AU AX BOOLEAN CASE COLON COMPUTE
+%token DECL DEFINE DEFINEASSIGNMENT DIVIDE DOT E EF EG ENUM EQDEF EQUAL ESAC EU
+%token EX FAIRNESS GE GT IFF IMPLIES INIT INITASSIGNMENT INSTANCE INVAR
+%token INVARASSIGNMENT ISA LE LIST LT MAX MIN MINU MINUS MOD MODULE NEXT NOT
+%token NOTEQUAL NUMBER OF OR PLUS PROCESS SETIN SETNOTIN SMALLINIT SPEC TIMES
+%token TRANS TRANSASSIGNMENT TWODOTS UMINUS UNION UNTIL VAR
+
+%type <node> A ACCESS AF AG AND ARRAY ASSIGN AT ATOM AU AX BOOLEAN CASE
+%type <node> COLON COMPUTE DECL DEFINE DEFINEASSIGNMENT DIVIDE DOT E EF EG
+%type <node> ENUM EQDEF EQUAL ESAC EU EX FAIRNESS GE GT IFF IMPLIES INIT
+%type <node> INITASSIGNMENT INSTANCE INVAR INVARASSIGNMENT ISA LE LIST LT
+%type <node> MAX MIN MINU MINUS MOD MODULE NEXT NOT NOTEQUAL NUMBER OF OR
+%type <node> PLUS PROCESS SETIN SETNOTIN SMALLINIT SPEC TIMES TRANS
+%type <node> TRANSASSIGNMENT TWODOTS UMINUS UNION UNTIL VAR
+
+%type <node> access ands args arithmetic_unary assignment assignments basic
+%type <node> case cases compute constant constants decl decls definition
+%type <node> definitions difference division enum equals expr ges gts iff
+%type <node> implications les logical_unary lts mods module modules notequals
+%type <node> ors params port product range section sections setins setnotins
+%type <node> start sum type unary_difference unary_division unary_equals
+%type <node> unary_ges unary_gts unary_les unary_lts unary_mods
+%type <node> unary_notequals unary_product unary_setins unary_setnotins
+%type <node> unary_sum unary_unions unions variable
 
 %%
 

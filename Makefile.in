@@ -3,8 +3,9 @@ CC=gcc
 CFLAGS=-Isrc -DVERSION=\"@VERSION@\" -O3 -mcpu=ultrasparc -DNDEBUG
 CFLAGS=-Isrc -DVERSION=\"@VERSION@\" -O3 -mcpu=ultrasparc -g
 CFLAGS=-Isrc -DVERSION=\"@VERSION@\" -g -DYYDEBUG -DCHECK_NODE_LEAKAGE
+CFLAGS=-Isrc -DVERSION=\"@VERSION@\" -g -O
 WARNINGS=-A
-WARNINGS=-Wall -W
+WARNINGS=-Wall
 YACCLEXWARNINGS=
 YACCLEXWARNINGS=-W
 COMPILE=$(CC) $(CFLAGS) $(WARNINGS) -c
@@ -87,7 +88,7 @@ src/lex.yy.c: src/scanner.l
 	mv lex.yy.c src
 
 obj/lex.yy.o: src/lex.yy.c src/y.tab.c src/node.h
-	$(CC) $(CFLAGS) -c $(YACCLEXWARNINGS) -o $@ src/lex.yy.c
+	$(CC) $(CFLAGS) $(YACCLEXWARNINGS) -c -o $@ src/lex.yy.c
 
 obj/main.o: src/assign.h src/assoc.h src/check.h src/deter.h src/encode.h \
 src/flatten.h src/macros.h src/main.c src/node.h

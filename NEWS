@@ -1,3 +1,8 @@
+VERSION 1.0
+  
+  25. for portability removed '#define YYSTYPE'
+  24. seperated test cases from sources
+
 VERSION 0.9
   
   23. quantification avoids introduction of small oracles

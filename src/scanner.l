@@ -7,7 +7,9 @@
  */
 /*------------------------------------------------------------------------*/
 %{
+#if 0
 #define YYSTYPE Node *		/* needed in y.tab.h !!!! */
+#endif
 
 #include "node.h"
 #include "y.tab.h"
@@ -54,11 +56,11 @@ extern YYSTYPE yylval;
 "{"                     return '{';
 "}"                     return '}';
 "FALSE"                 {
-			  yylval = number(0);
+			  yylval.node = number(0);
 			  return NUMBER;
                         }
 "TRUE"                  {
-			  yylval = number(1);
+			  yylval.node = number(1);
 			  return NUMBER;
                         }
 "case"                  return CASE;
@@ -89,12 +91,12 @@ extern YYSTYPE yylval;
 "!"                     return NOT;
 
 
-[A-Za-z_][A-Za-z0-9_\$#-]*	{ yylval = atom(yytext); return ATOM; }
+[A-Za-z_][A-Za-z0-9_\$#-]*	{ yylval.node = atom(yytext); return ATOM; }
 
 -?[0-9]+                  	{
 				  int i;
 				  sscanf(yytext,"%d",&i);
-				  yylval = number(i);
+				  yylval.node = number(i);
 				  return NUMBER;
 				}
 
