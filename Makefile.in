@@ -17,10 +17,10 @@ LINK=$(LD)
 LIBS=-lccmalloc -ldl
 LIBS=
 
-YACC=bison -y -v -t
 YACC=yacc -v -t
-LEX=flex -l
+YACC=bison -y -v -t
 LEX=lex
+LEX=flex -l
 
 #--------------------------------------------------------------------------#
 
