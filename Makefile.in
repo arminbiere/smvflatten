@@ -44,10 +44,10 @@ distclean: clean
 	do \
 	  find . -name $$f -exec rm -f {} \; ; \
 	done
-	./test/clean
+	if [ -d test ]; then ./test/clean; fi
 	rm -f Makefile config.sh
 
-.PHONY: all clean distclean
+.PHONY: all clean distclean install
 
 #--------------------------------------------------------------------------#
 

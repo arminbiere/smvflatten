@@ -2,6 +2,13 @@
 #define _check_h_INCLUDED
 
 /*------------------------------------------------------------------------*/
+/* Copyright Armin Biere.
+ *
+ * All rights reserved.
+ *
+ * Do not copy without permission of the author.
+ */
+/*------------------------------------------------------------------------*/
 
 #include "assoc.h"
 #include "node.h"

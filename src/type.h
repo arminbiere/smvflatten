@@ -2,6 +2,13 @@
 #define _type_h_INCLUDED
 
 /*------------------------------------------------------------------------*/
+/* Copyright 1999-2000 Armin Biere.
+ *
+ * All rights reserved.
+ *
+ * Do not copy without permission of the author.
+ */
+/*------------------------------------------------------------------------*/
 
 #include "node.h"
 #include "assoc.h"

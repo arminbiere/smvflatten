@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------*/
-/* Copyright Armin Biere.
+/* Copyright 1999-2000 Armin Biere.
  *
  * All rights reserved.
  *
@@ -25,7 +25,7 @@
 
 /*------------------------------------------------------------------------*/
 
-char * smvflatten_id = "$Id: main.c,v 1.1 2000-03-02 13:45:15 biere Exp $";
+char * smvflatten_id = "$Id: main.c,v 1.2 2000-04-18 11:45:06 biere Exp $";
 
 /*------------------------------------------------------------------------*/
 
@@ -58,7 +58,7 @@ unsigned max_size_quantified_oracle = default_max_size_quantified_oracle;
  * There you will also find an explanation for the various simplification
  * levels.
  */
-#define default_simplification_level 5
+#define default_simplification_level 1
 unsigned simplification_level = default_simplification_level;
 
 /*------------------------------------------------------------------------*/
@@ -108,7 +108,7 @@ static void usage(void)
 "    (default is to stop after extraction of macros, which is phase 6)\n"
 "\n"
 "    -q[0-9]     number of bits an oracle may have and still is quantified\n"
-"                 out during determinization (default %u)\n"
+"                out during determinization (default %u)\n"
 "\n"
 "    -m[angle]    mangle identifiers, i.e. flattening and encoding generates\n"
 "                 identifiers that may contain the following characters:\n"

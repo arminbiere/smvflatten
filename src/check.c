@@ -3,6 +3,13 @@
 #include "y.tab.h"
 
 /*------------------------------------------------------------------------*/
+/* Copyright 1999-2000 Armin Biere.
+ *
+ * All rights reserved.
+ *
+ * Do not copy without permission of the author.
+ */
+/*------------------------------------------------------------------------*/
 
 #include <assert.h>
 #include <stdlib.h>
