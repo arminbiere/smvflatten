@@ -1,0 +1,87 @@
+#!/bin/sh
+#
+# This scripts searches for SMV files in the list of files or directories
+# given as arguments.  All files found are flattened with `smvflatten'.  The
+# script checks whether the flatten process did not produce any error.
+
+#DEBUG=yes
+
+cwd=`pwd`
+
+dirs=""
+options=""
+while [ $# -gt 0 ]
+do
+  case $1 in
+    -*) options="$options $1";;
+    *) dirs="$dirs $1";;
+  esac
+  shift
+done
+
+if [ x"$dirs" = x ]
+then
+  echo "*** usage:  fttest [<options>] <file-or-directory> ..." 1>&2
+  exit 1
+fi
+
+echo "-------------------------------------------------------[flattening of some dirs]"
+printf "searching $dirs ..."
+src=`find $dirs -name \*.smv`
+num="`echo $src | wc -w | sed -e 's,[ 	]*,,g'`"
+
+case x"$num" in
+  x | x0)
+    echo " no smv files found"
+    exit 1
+    ;;
+  *)
+    echo " found $num smv files"
+    ;;
+esac
+
+if [ x"$DEBUG" = xyes ]
+then
+  tmp=/tmp/ft-smvflatten
+else
+  tmp=/tmp/ft-smvflatten-$$
+  trap "rm -rf $tmp" 2
+fi
+
+[ -d $tmp ] || mkdir $tmp
+[ -d $tmp/old ] || mkdir $tmp/old
+[ -d $tmp/new ] || mkdir $tmp/new
+
+printf "copying smv files to $tmp/old ..."
+cp $src $tmp/old
+echo " done"
+
+printf "generating symbolic link for 'smvflatten' ..."
+if cp `dirname $0`/../bin/smvflatten $tmp
+then
+  echo " done"
+else
+  echo " failed"
+fi
+
+ok=0
+failed=0
+
+files=`ls $tmp/old/*.smv | sed -e 's,.*/,,g' -e 's,\.smv,,g'`
+for file in $files
+do
+  printf "$file "
+  echo "phase 1: $file" >> $tmp/err
+  if $tmp/smvflatten $options $tmp/old/${file}.smv 2>>$tmp/err 1>$tmp/new/${file}.smv
+  then
+    echo " ok"
+    ok=`expr $ok + 1`
+  else
+    echo " failed"
+    failed=`expr $failed + 1`
+  fi
+done
+
+echo "--------------------------------------------------------------------------------"
+echo "$ok ok, $failed failed"
+[ x"$DEBUG" = xyes ] || rm -rf $tmp

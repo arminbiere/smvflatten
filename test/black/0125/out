@@ -1,0 +1,6 @@
+MODULE main
+VAR
+  b@1 : boolean; --TYPE-- dos tres un
+  b@0 : boolean;
+INVAR
+  !b@1 | !b@0

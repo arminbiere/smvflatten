@@ -1,0 +1,9 @@
+MODULE main
+VAR
+  a@1 : boolean; --TYPE-- 0..3
+  a@0 : boolean;
+INIT
+  a@1 | a@0
+SPEC
+  a@1 &
+  a@0

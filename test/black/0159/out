@@ -1,0 +1,224 @@
+MODULE main
+VAR
+  a : boolean;
+  b : {one, three, two};
+  c : boolean;
+  d : -1..1;
+TRANS
+  b = 
+  case
+    a : one;
+    1 : b;
+  esac & c = 
+  case
+    a : 0;
+    1 : c;
+  esac & d = 
+  case
+    a : -1;
+    1 : d;
+  esac | b = 
+  case
+    a : one;
+    1 : b;
+  esac & c = 
+  case
+    a : 0;
+    1 : c;
+  esac & d = 
+  case
+    a : 0;
+    1 : d;
+  esac | b = 
+  case
+    a : one;
+    1 : b;
+  esac & c = 
+  case
+    a : 0;
+    1 : c;
+  esac & d = 
+  case
+    a : 1;
+    1 : d;
+  esac | b = 
+  case
+    a : one;
+    1 : b;
+  esac & c = 
+  case
+    a : 1;
+    1 : c;
+  esac & d = 
+  case
+    a : -1;
+    1 : d;
+  esac | b = 
+  case
+    a : one;
+    1 : b;
+  esac & c = 
+  case
+    a : 1;
+    1 : c;
+  esac & d = 
+  case
+    a : 0;
+    1 : d;
+  esac | b = 
+  case
+    a : one;
+    1 : b;
+  esac & c = 
+  case
+    a : 1;
+    1 : c;
+  esac & d = 
+  case
+    a : 1;
+    1 : d;
+  esac | b = 
+  case
+    a : two;
+    1 : b;
+  esac & c = 
+  case
+    a : 0;
+    1 : c;
+  esac & d = 
+  case
+    a : -1;
+    1 : d;
+  esac | b = 
+  case
+    a : two;
+    1 : b;
+  esac & c = 
+  case
+    a : 0;
+    1 : c;
+  esac & d = 
+  case
+    a : 0;
+    1 : d;
+  esac | b = 
+  case
+    a : two;
+    1 : b;
+  esac & c = 
+  case
+    a : 0;
+    1 : c;
+  esac & d = 
+  case
+    a : 1;
+    1 : d;
+  esac | b = 
+  case
+    a : two;
+    1 : b;
+  esac & c = 
+  case
+    a : 1;
+    1 : c;
+  esac & d = 
+  case
+    a : -1;
+    1 : d;
+  esac | b = 
+  case
+    a : two;
+    1 : b;
+  esac & c = 
+  case
+    a : 1;
+    1 : c;
+  esac & d = 
+  case
+    a : 0;
+    1 : d;
+  esac | b = 
+  case
+    a : two;
+    1 : b;
+  esac & c = 
+  case
+    a : 1;
+    1 : c;
+  esac & d = 
+  case
+    a : 1;
+    1 : d;
+  esac | b = 
+  case
+    a : three;
+    1 : b;
+  esac & c = 
+  case
+    a : 0;
+    1 : c;
+  esac & d = 
+  case
+    a : -1;
+    1 : d;
+  esac | b = 
+  case
+    a : three;
+    1 : b;
+  esac & c = 
+  case
+    a : 0;
+    1 : c;
+  esac & d = 
+  case
+    a : 0;
+    1 : d;
+  esac | b = 
+  case
+    a : three;
+    1 : b;
+  esac & c = 
+  case
+    a : 0;
+    1 : c;
+  esac & d = 
+  case
+    a : 1;
+    1 : d;
+  esac | b = 
+  case
+    a : three;
+    1 : b;
+  esac & c = 
+  case
+    a : 1;
+    1 : c;
+  esac & d = 
+  case
+    a : -1;
+    1 : d;
+  esac | b = 
+  case
+    a : three;
+    1 : b;
+  esac & c = 
+  case
+    a : 1;
+    1 : c;
+  esac & d = 
+  case
+    a : 0;
+    1 : d;
+  esac | b = 
+  case
+    a : three;
+    1 : b;
+  esac & c = 
+  case
+    a : 1;
+    1 : c;
+  esac & d = 
+  case
+    a : 1;
+    1 : d;
+  esac

@@ -1,0 +1,14 @@
+#!/bin/sh
+
+cd `dirname $0`
+
+rm -f core smvflatten
+
+echo "cleaning up white box test cases:"
+for test in [0-9][0-9][0-9][0-9]
+do
+  printf "[$test"
+  ./$test/clean
+  printf "]"
+done
+echo

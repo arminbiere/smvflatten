@@ -1,0 +1,4 @@
+MODULE main
+VAR
+  a : boolean;
+  b@0 : boolean; --TYPE-- 1..2

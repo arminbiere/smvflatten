@@ -1,0 +1,5 @@
+MODULE main
+VAR
+  a : array 0..2 of boolean;
+  b : array 0..1 of boolean;
+  c : array 0..7 of array 0..3 of boolean;

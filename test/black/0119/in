@@ -1,0 +1,3 @@
+MODULE main
+VAR
+  b : { un, dos, tres, quattro, cinco, seis };

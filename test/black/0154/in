@@ -1,0 +1,9 @@
+MODULE main
+VAR
+  a : -4..3;
+INVAR
+  a = 0..1
+INIT
+  a = 0
+SPEC
+  AG a = 0

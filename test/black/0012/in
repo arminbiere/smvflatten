@@ -1,0 +1,10 @@
+MODULE main
+VAR
+  a : boolean;
+  b : boolean;
+SPEC
+  AF a = b
+SPEC
+  AG (a <-> b)
+SPEC
+  AG AF a <-> b

@@ -1,0 +1,8 @@
+MODULE main
+VAR
+  m.a : boolean;
+  c : boolean;
+DEFINE
+  m.b := !c;
+ASSIGN
+  m.a := m.b;

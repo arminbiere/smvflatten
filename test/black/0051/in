@@ -1,0 +1,11 @@
+MODULE m(s)
+VAR
+  c : boolean;
+ASSIGN
+  init(c) := s;
+  next(c) := !c;
+MODULE main
+VAR
+  a : array 0..1 of process m(0);
+SPEC
+  AG !(a[0].c & a[1].c)

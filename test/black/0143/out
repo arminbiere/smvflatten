@@ -1,0 +1,5 @@
+MODULE main
+VAR
+  a : boolean;
+ASSIGN
+  next(a) := !a;

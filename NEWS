@@ -1,0 +1,49 @@
+VERSION 0.9
+  
+  23. quantification avoids introduction of small oracles
+  22. determinization merges sections as well
+
+VERSION 0.8
+  
+  21. avoided to introduce oracles if not necessary
+  20. moved determinization phase behind flattening
+  19. seperated simplification levels
+  18. simplified usage description
+  17. running variable becomes an enumeration
+
+VERSION 0.7
+
+  16. fixed inheritance of process semantics
+  15. extraction of macros for shared terms
+  14. extraction of trans assignments
+
+VERSION 0.6
+  
+  13. extraction of init assignments
+  12. added support for ISA
+  11. fixed computation of number of processes
+  10. added support for COMPUTE MIN or COMPUTE MAX
+  9. removed back annotation for all but the most significant bit
+  8. purified version 0.5
+
+VERSION 0.5
+  
+  7. added restrictions to INVAR for non power of two sized variables
+
+VERSION 0.4
+  
+  6. non valid RHS generates new TRANS section
+  5. new src/module.[ch]
+
+VERSION 0.3
+  
+  4. encoding of comparison operators on numbers
+  3. encoding of enumeration types
+
+VERSION 0.2
+  
+  2. first working encoding
+
+VERSION 0.1
+  
+  1. first real flattening code

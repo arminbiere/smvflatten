@@ -1,0 +1,12 @@
+MODULE main
+VAR
+  a : boolean;
+  b : boolean;
+DEFINE
+  c := a;
+ASSIGN
+  b := 0;
+  init(a) := b;
+  next(a) := b;
+SPEC
+  a

@@ -1,0 +1,8 @@
+MODULE m
+VAR
+  c : boolean;
+ASSIGN
+  next(c) := !c;
+MODULE main
+VAR
+  a : process m;

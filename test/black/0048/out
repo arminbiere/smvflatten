@@ -1,0 +1,7 @@
+MODULE main
+VAR
+  a : {drei, eins, zwei};
+ASSIGN
+  init(a) := eins;
+TRANS
+  next(a) = eins | next(a) = zwei

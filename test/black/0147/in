@@ -1,0 +1,7 @@
+MODULE main
+VAR
+  a : boolean;
+  b : boolean;
+ASSIGN
+  next(a) := a & b;
+  next(b) := !a | !b;

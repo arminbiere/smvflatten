@@ -1,0 +1,16 @@
+MODULE main
+VAR
+  a : boolean;
+TRANS
+  case
+    a :
+      case
+        next(a) : 0;
+        1 : 1;
+      esac;
+    1 :
+      case
+        next(a) : 1;
+        1 : 0;
+      esac;
+  esac

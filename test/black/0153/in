@@ -1,0 +1,5 @@
+MODULE main
+VAR
+  a : -1..2;
+INVAR
+  a = 1..2

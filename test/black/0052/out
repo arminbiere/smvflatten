@@ -1,0 +1,195 @@
+MODULE main
+VAR
+  running : {main, r2s, receiver, s2r, sender};
+  sender.state : {get, send, wait_for_ack};
+  sender.abp : boolean;
+  sender.data : boolean;
+  s2r_in.tag : {data0, data1, error, mt};
+  s2r_in.data : boolean;
+  s2r_out.tag : {data0, data1, error, mt};
+  s2r_out.data : boolean;
+  receiver.state : {deliver, receive, send_ack};
+  receiver.abp : boolean;
+  receiver.data : boolean;
+  r2s_in.tag : {ack0, ack1, error, mt};
+  r2s_out.tag : {ack0, ack1, error, mt};
+  ORACLE0 : boolean;
+  ORACLE1 : boolean;
+  ORACLE2 : boolean;
+ASSIGN
+  init(sender.state) := get;
+  init(sender.abp) := 0;
+  next(sender.state) :=
+    case
+      running = sender :
+        case
+          sender.state = get : send;
+          sender.state = send & s2r_in.tag = mt : wait_for_ack;
+          sender.state = send & !s2r_in.tag = mt : send;
+          sender.state = wait_for_ack & (!sender.abp & r2s_out.tag = ack0 | sender.abp & r2s_out.tag = ack1) : get;
+          sender.state = wait_for_ack & (sender.abp & r2s_out.tag = ack0 | !sender.abp & r2s_out.tag = ack1 | r2s_out.tag = error) : send;
+          sender.state = wait_for_ack & r2s_out.tag = mt : wait_for_ack;
+        esac;
+      1 : sender.state;
+    esac;
+  next(sender.abp) :=
+    case
+      running = sender :
+        case
+          sender.state = wait_for_ack & (!sender.abp & r2s_out.tag = ack0 | sender.abp & r2s_out.tag = ack1) : !sender.abp;
+          1 : sender.abp;
+        esac;
+      1 : sender.abp;
+    esac;
+  next(sender.data) :=
+    case
+      running = sender :
+        case
+          sender.state = wait_for_ack & (!sender.abp & r2s_out.tag = ack0 | sender.abp & r2s_out.tag = ack1) : ORACLE0;
+          1 : sender.data;
+        esac;
+      1 : sender.data;
+    esac;
+  init(s2r_in.tag) := mt;
+  init(s2r_out.tag) := mt;
+  init(receiver.state) := receive;
+  init(receiver.abp) := 0;
+  next(receiver.state) :=
+    case
+      running = receiver :
+        case
+          receiver.state = receive & (!receiver.abp & s2r_out.tag = data0 | receiver.abp & s2r_out.tag = data1) : deliver;
+          receiver.state = receive & (receiver.abp & s2r_out.tag = data0 | !receiver.abp & s2r_out.tag = data1 | s2r_out.tag = error) : send_ack;
+          receiver.state = receive & s2r_out.tag = mt : receiver.state;
+          receiver.state = deliver : send_ack;
+          receiver.state = send_ack & r2s_in.tag = mt : receive;
+          receiver.state = send_ack & !r2s_in.tag = mt : receiver.state;
+        esac;
+      1 : receiver.state;
+    esac;
+  next(receiver.abp) :=
+    case
+      running = receiver :
+        case
+          receiver.state = deliver : !receiver.abp;
+          1 : receiver.abp;
+        esac;
+      1 : receiver.abp;
+    esac;
+  next(receiver.data) :=
+    case
+      running = receiver :
+        case
+          receiver.state = receive & (!receiver.abp & s2r_out.tag = data0 | receiver.abp & s2r_out.tag = data1) : s2r_out.data;
+          1 : receiver.data;
+        esac;
+      1 : receiver.data;
+    esac;
+  init(r2s_in.tag) := mt;
+  init(r2s_out.tag) := mt;
+  next(r2s_out.tag) :=
+    case
+      running = r2s :
+        case
+          r2s_out.tag = mt & !r2s_in.tag = mt :
+            case
+              ORACLE1 : r2s_in.tag;
+              1 : error;
+            esac;
+          1 : r2s_out.tag;
+        esac;
+      running = sender :
+        case
+          sender.state = wait_for_ack : mt;
+          1 : r2s_out.tag;
+        esac;
+      1 : r2s_out.tag;
+    esac;
+  next(r2s_in.tag) :=
+    case
+      running = r2s :
+        case
+          r2s_out.tag = mt & !r2s_in.tag = mt : mt;
+          1 : r2s_in.tag;
+        esac;
+      running = receiver :
+        case
+          receiver.state = send_ack & r2s_in.tag = mt :
+            case
+              receiver.abp : ack0;
+              !receiver.abp : ack1;
+            esac;
+          1 : r2s_in.tag;
+        esac;
+      1 : r2s_in.tag;
+    esac;
+  next(s2r_out.tag) :=
+    case
+      running = s2r :
+        case
+          s2r_out.tag = mt & !s2r_in.tag = mt :
+            case
+              ORACLE2 : s2r_in.tag;
+              1 : error;
+            esac;
+          1 : s2r_out.tag;
+        esac;
+      running = receiver :
+        case
+          receiver.state = receive : mt;
+          1 : s2r_out.tag;
+        esac;
+      1 : s2r_out.tag;
+    esac;
+  next(s2r_in.tag) :=
+    case
+      running = s2r :
+        case
+          s2r_out.tag = mt & !s2r_in.tag = mt : mt;
+          1 : s2r_in.tag;
+        esac;
+      running = sender :
+        case
+          sender.state = send & s2r_in.tag = mt :
+            case
+              sender.abp : data1;
+              !sender.abp : data0;
+            esac;
+          1 : s2r_in.tag;
+        esac;
+      1 : s2r_in.tag;
+    esac;
+  next(s2r_out.data) :=
+    case
+      running = s2r :
+        case
+          s2r_out.tag = mt & !s2r_in.tag = mt : s2r_in.data;
+          1 : s2r_out.data;
+        esac;
+      running = receiver : s2r_out.data;
+      1 : s2r_out.data;
+    esac;
+  next(s2r_in.data) :=
+    case
+      running = s2r : s2r_in.data;
+      running = sender :
+        case
+          sender.state = send & s2r_in.tag = mt : sender.data;
+          1 : s2r_in.data;
+        esac;
+      1 : s2r_in.data;
+    esac;
+FAIRNESS
+  running = sender
+FAIRNESS
+  running = receiver
+FAIRNESS
+  running = r2s
+FAIRNESS
+  r2s_out.tag = ack0 | r2s_out.tag = ack1
+FAIRNESS
+  running = s2r
+FAIRNESS
+  s2r_out.tag = data0 | s2r_out.tag = data1
+SPEC
+  AG AF sender.state = get

@@ -1,0 +1,9 @@
+MODULE n
+MODULE not_used
+MODULE m
+VAR 
+  a : n;
+MODULE also_not_used
+MODULE main
+VAR
+  b : m;

@@ -1,0 +1,474 @@
+MODULE main
+VAR
+  running : {e-1, e-2, main};
+  e-2.u.req : boolean;
+  e-2.a.out : boolean;
+  e-2.b.out : boolean;
+  e-2.c.out : boolean;
+  e-2.d.out : boolean;
+  e-2.g.out : boolean;
+  e-2.e.out : boolean;
+  e-2.f.out : boolean;
+  e-2.h.out : boolean;
+  e-2.k.out : boolean;
+  e-2.i.out : boolean;
+  e-2.l.out : boolean;
+  e-2.j.out : boolean;
+  e-2.p.out : boolean;
+  e-2.n.out : boolean;
+  e-2.m.out : boolean;
+  e-2.r.out : boolean;
+  e-2.q.out : boolean;
+  e-1.u.req : boolean;
+  e-1.a.out : boolean;
+  e-1.b.out : boolean;
+  e-1.c.out : boolean;
+  e-1.d.out : boolean;
+  e-1.g.out : boolean;
+  e-1.e.out : boolean;
+  e-1.f.out : boolean;
+  e-1.h.out : boolean;
+  e-1.k.out : boolean;
+  e-1.i.out : boolean;
+  e-1.l.out : boolean;
+  e-1.j.out : boolean;
+  e-1.p.out : boolean;
+  e-1.n.out : boolean;
+  e-1.m.out : boolean;
+  e-1.r.out : boolean;
+  e-1.q.out : boolean;
+  ORACLE0 : boolean;
+  ORACLE1 : boolean;
+  ORACLE2 : boolean;
+  ORACLE3 : boolean;
+  ORACLE4 : boolean;
+  ORACLE5 : boolean;
+  ORACLE6 : boolean;
+  ORACLE7 : boolean;
+  ORACLE8 : boolean;
+  ORACLE9 : boolean;
+  ORACLE10 : boolean;
+  ORACLE11 : boolean;
+  ORACLE12 : boolean;
+  ORACLE13 : boolean;
+  ORACLE14 : boolean;
+  ORACLE15 : boolean;
+  ORACLE16 : boolean;
+  ORACLE17 : boolean;
+  ORACLE18 : boolean;
+  ORACLE19 : boolean;
+  ORACLE20 : boolean;
+  ORACLE21 : boolean;
+  ORACLE22 : boolean;
+  ORACLE23 : boolean;
+  ORACLE24 : boolean;
+  ORACLE25 : boolean;
+  ORACLE26 : boolean;
+  ORACLE27 : boolean;
+  ORACLE28 : boolean;
+  ORACLE29 : boolean;
+  ORACLE30 : boolean;
+  ORACLE31 : boolean;
+  ORACLE32 : boolean;
+  ORACLE33 : boolean;
+  ORACLE34 : boolean;
+  ORACLE35 : boolean;
+DEFINE
+  e-2.req := e-2.p.out;
+  e-2.ack := e-2.q.out;
+  e-2.u.ack := e-2.r.out;
+  e-1.req := e-1.p.out;
+  e-1.ack := e-1.q.out;
+  e-1.u.ack := e-1.r.out;
+ASSIGN
+  init(e-2.u.req) := 0;
+  next(e-2.u.req) :=
+    case
+      running = e-2 :
+        case
+          ORACLE0 : !e-2.u.ack;
+          1 : e-2.u.req;
+        esac;
+      1 : e-2.u.req;
+    esac;
+  init(e-2.a.out) := 0;
+  next(e-2.a.out) :=
+    case
+      running = e-2 :
+        case
+          ORACLE1 : e-2.u.req;
+          1 : e-2.a.out;
+        esac;
+      1 : e-2.a.out;
+    esac;
+  init(e-2.b.out) := 0;
+  next(e-2.b.out) :=
+    case
+      running = e-2 :
+        case
+          ORACLE2 : e-2.req;
+          1 : e-2.b.out;
+        esac;
+      1 : e-2.b.out;
+    esac;
+  init(e-2.c.out) := 0;
+  next(e-2.c.out) :=
+    case
+      running = e-2 :
+        case
+          ORACLE3 : e-2.a.out & !e-2.ack;
+          1 : e-2.c.out;
+        esac;
+      1 : e-2.c.out;
+    esac;
+  init(e-2.d.out) := 0;
+  next(e-2.d.out) :=
+    case
+      running = e-2 :
+        case
+          ORACLE4 : e-2.b.out & !e-2.u.ack;
+          1 : e-2.d.out;
+        esac;
+      1 : e-2.d.out;
+    esac;
+  init(e-2.g.out) := 0;
+  next(e-2.g.out) :=
+    case
+      running = e-2 :
+        case
+          ORACLE5 : e-2.c.out | e-2.d.out;
+          1 : e-2.g.out;
+        esac;
+      1 : e-2.g.out;
+    esac;
+  init(e-2.e.out) := 0;
+  next(e-2.e.out) :=
+    case
+      running = e-2 :
+        case
+          e-2.c.out = e-2.i.out :
+            case
+              ORACLE6 : e-2.c.out;
+              1 : e-2.e.out;
+            esac;
+          1 : e-2.e.out;
+        esac;
+      1 : e-2.e.out;
+    esac;
+  init(e-2.f.out) := 0;
+  next(e-2.f.out) :=
+    case
+      running = e-2 :
+        case
+          e-2.d.out = e-2.i.out :
+            case
+              ORACLE7 : e-2.d.out;
+              1 : e-2.f.out;
+            esac;
+          1 : e-2.f.out;
+        esac;
+      1 : e-2.f.out;
+    esac;
+  init(e-2.h.out) := 0;
+  next(e-2.h.out) :=
+    case
+      running = e-2 :
+        case
+          e-2.g.out = e-2.j.out :
+            case
+              ORACLE8 : e-2.g.out;
+              1 : e-2.h.out;
+            esac;
+          1 : e-2.h.out;
+        esac;
+      1 : e-2.h.out;
+    esac;
+  init(e-2.k.out) := 0;
+  next(e-2.k.out) :=
+    case
+      running = e-2 :
+        case
+          ORACLE9 : e-2.g.out & !e-2.h.out;
+          1 : e-2.k.out;
+        esac;
+      1 : e-2.k.out;
+    esac;
+  init(e-2.i.out) := 0;
+  next(e-2.i.out) :=
+    case
+      running = e-2 :
+        case
+          ORACLE10 : e-2.h.out & !e-2.j.out;
+          1 : e-2.i.out;
+        esac;
+      1 : e-2.i.out;
+    esac;
+  init(e-2.l.out) := 0;
+  next(e-2.l.out) :=
+    case
+      running = e-2 :
+        case
+          ORACLE11 : e-2.k.out & e-2.m.out;
+          1 : e-2.l.out;
+        esac;
+      1 : e-2.l.out;
+    esac;
+  init(e-2.j.out) := 0;
+  next(e-2.j.out) :=
+    case
+      running = e-2 :
+        case
+          ORACLE12 : e-2.l.out | e-2.ack;
+          1 : e-2.j.out;
+        esac;
+      1 : e-2.j.out;
+    esac;
+  init(e-2.p.out) := 0;
+  next(e-2.p.out) :=
+    case
+      running = e-2 :
+        case
+          ORACLE13 : e-2.k.out & e-2.n.out;
+          1 : e-2.p.out;
+        esac;
+      1 : e-2.p.out;
+    esac;
+  init(e-2.n.out) := !0;
+  next(e-2.n.out) :=
+    case
+      running = e-2 :
+        case
+          ORACLE14 : !e-2.e.out & !e-2.m.out;
+          1 : e-2.n.out;
+        esac;
+      1 : e-2.n.out;
+    esac;
+  init(e-2.m.out) := 0;
+  next(e-2.m.out) :=
+    case
+      running = e-2 :
+        case
+          ORACLE15 : !e-2.f.out & !e-2.n.out;
+          1 : e-2.m.out;
+        esac;
+      1 : e-2.m.out;
+    esac;
+  init(e-2.r.out) := 0;
+  next(e-2.r.out) :=
+    case
+      running = e-2 :
+        case
+          ORACLE16 : e-2.e.out & e-2.m.out;
+          1 : e-2.r.out;
+        esac;
+      1 : e-2.r.out;
+    esac;
+  init(e-2.q.out) := 0;
+  next(e-2.q.out) :=
+    case
+      running = e-2 :
+        case
+          ORACLE17 : e-2.f.out & e-2.n.out;
+          1 : e-2.q.out;
+        esac;
+      1 : e-2.q.out;
+    esac;
+  init(e-1.u.req) := 0;
+  next(e-1.u.req) :=
+    case
+      running = e-1 :
+        case
+          ORACLE18 : !e-1.u.ack;
+          1 : e-1.u.req;
+        esac;
+      1 : e-1.u.req;
+    esac;
+  init(e-1.a.out) := 0;
+  next(e-1.a.out) :=
+    case
+      running = e-1 :
+        case
+          ORACLE19 : e-1.u.req;
+          1 : e-1.a.out;
+        esac;
+      1 : e-1.a.out;
+    esac;
+  init(e-1.b.out) := 0;
+  next(e-1.b.out) :=
+    case
+      running = e-1 :
+        case
+          ORACLE20 : e-1.req;
+          1 : e-1.b.out;
+        esac;
+      1 : e-1.b.out;
+    esac;
+  init(e-1.c.out) := 0;
+  next(e-1.c.out) :=
+    case
+      running = e-1 :
+        case
+          ORACLE21 : e-1.a.out & !e-1.ack;
+          1 : e-1.c.out;
+        esac;
+      1 : e-1.c.out;
+    esac;
+  init(e-1.d.out) := 0;
+  next(e-1.d.out) :=
+    case
+      running = e-1 :
+        case
+          ORACLE22 : e-1.b.out & !e-1.u.ack;
+          1 : e-1.d.out;
+        esac;
+      1 : e-1.d.out;
+    esac;
+  init(e-1.g.out) := 0;
+  next(e-1.g.out) :=
+    case
+      running = e-1 :
+        case
+          ORACLE23 : e-1.c.out | e-1.d.out;
+          1 : e-1.g.out;
+        esac;
+      1 : e-1.g.out;
+    esac;
+  init(e-1.e.out) := 0;
+  next(e-1.e.out) :=
+    case
+      running = e-1 :
+        case
+          e-1.c.out = e-1.i.out :
+            case
+              ORACLE24 : e-1.c.out;
+              1 : e-1.e.out;
+            esac;
+          1 : e-1.e.out;
+        esac;
+      1 : e-1.e.out;
+    esac;
+  init(e-1.f.out) := 0;
+  next(e-1.f.out) :=
+    case
+      running = e-1 :
+        case
+          e-1.d.out = e-1.i.out :
+            case
+              ORACLE25 : e-1.d.out;
+              1 : e-1.f.out;
+            esac;
+          1 : e-1.f.out;
+        esac;
+      1 : e-1.f.out;
+    esac;
+  init(e-1.h.out) := 0;
+  next(e-1.h.out) :=
+    case
+      running = e-1 :
+        case
+          e-1.g.out = e-1.j.out :
+            case
+              ORACLE26 : e-1.g.out;
+              1 : e-1.h.out;
+            esac;
+          1 : e-1.h.out;
+        esac;
+      1 : e-1.h.out;
+    esac;
+  init(e-1.k.out) := 0;
+  next(e-1.k.out) :=
+    case
+      running = e-1 :
+        case
+          ORACLE27 : e-1.g.out & !e-1.h.out;
+          1 : e-1.k.out;
+        esac;
+      1 : e-1.k.out;
+    esac;
+  init(e-1.i.out) := 0;
+  next(e-1.i.out) :=
+    case
+      running = e-1 :
+        case
+          ORACLE28 : e-1.h.out & !e-1.j.out;
+          1 : e-1.i.out;
+        esac;
+      1 : e-1.i.out;
+    esac;
+  init(e-1.l.out) := 0;
+  next(e-1.l.out) :=
+    case
+      running = e-1 :
+        case
+          ORACLE29 : e-1.k.out & e-1.m.out;
+          1 : e-1.l.out;
+        esac;
+      1 : e-1.l.out;
+    esac;
+  init(e-1.j.out) := 0;
+  next(e-1.j.out) :=
+    case
+      running = e-1 :
+        case
+          ORACLE30 : e-1.l.out | e-1.ack;
+          1 : e-1.j.out;
+        esac;
+      1 : e-1.j.out;
+    esac;
+  init(e-1.p.out) := 0;
+  next(e-1.p.out) :=
+    case
+      running = e-1 :
+        case
+          ORACLE31 : e-1.k.out & e-1.n.out;
+          1 : e-1.p.out;
+        esac;
+      1 : e-1.p.out;
+    esac;
+  init(e-1.n.out) := !0;
+  next(e-1.n.out) :=
+    case
+      running = e-1 :
+        case
+          ORACLE32 : !e-1.e.out & !e-1.m.out;
+          1 : e-1.n.out;
+        esac;
+      1 : e-1.n.out;
+    esac;
+  init(e-1.m.out) := 0;
+  next(e-1.m.out) :=
+    case
+      running = e-1 :
+        case
+          ORACLE33 : !e-1.f.out & !e-1.n.out;
+          1 : e-1.m.out;
+        esac;
+      1 : e-1.m.out;
+    esac;
+  init(e-1.r.out) := 0;
+  next(e-1.r.out) :=
+    case
+      running = e-1 :
+        case
+          ORACLE34 : e-1.e.out & e-1.m.out;
+          1 : e-1.r.out;
+        esac;
+      1 : e-1.r.out;
+    esac;
+  init(e-1.q.out) := 0;
+  next(e-1.q.out) :=
+    case
+      running = e-1 :
+        case
+          ORACLE35 : e-1.f.out & e-1.n.out;
+          1 : e-1.q.out;
+        esac;
+      1 : e-1.q.out;
+    esac;
+TRANS
+  !(next(e-2.a.out) & next(e-2.b.out)) &
+  !(next(e-2.b.out) & next(e-2.a.out)) &
+  !(next(e-1.a.out) & next(e-1.b.out)) &
+  !(next(e-1.b.out) & next(e-1.a.out))
+SPEC
+  AG !(e-1.u.ack & e-2.u.ack)

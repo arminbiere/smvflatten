@@ -1,0 +1,11 @@
+1. handle arithmetic operators after determinization
+
+2. order oracles appropriately
+
+3. instead of the introduction of oracles one might just move the assignment
+to the corresponding section and do a brute force expansion.  This only
+seems useful if the oracle in question would be of small range.
+
+4. Seperate Code into a library.
+
+5. Reengineer what exactly SMV does with a combination of TRANS and process

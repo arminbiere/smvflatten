@@ -1,0 +1,50 @@
+#!/bin/sh
+
+cd `dirname $0`
+
+#--------------------------------------------------------------------------#
+
+printf "version ..."
+version="`cat VERSION`"
+echo " $version"
+
+#--------------------------------------------------------------------------#
+
+cmu_smv=""
+printf "searching for CMU smv ..."
+#
+# you may need to add more file-names here
+#
+for f in /usr/local/bin/cmu-smv /usr/local/bin/smv
+do
+  if [ -f $f ]
+  then
+    #
+    #  How to we check that this is really CMU-SMV???
+    #
+    cmu_smv=$f
+    break;
+  fi
+done
+
+if [ "$cmu_smv" ]
+then
+  echo " $cmu_smv"
+else
+  echo " not found (some black box tests are disabled)"
+fi
+
+#--------------------------------------------------------------------------#
+
+printf "generating config.sh ..."
+rm -f config.sh
+echo "version=\"$version\"" >> config.sh
+[ "$cmu_smv" ] && echo "cmu_smv=$cmu_smv" >> config.sh
+echo " done"
+
+#--------------------------------------------------------------------------#
+
+printf "generating Makefile ..."
+rm -f Makefile
+sed -e "s,@VERSION@,$version," Makefile.in > Makefile
+echo " done"

@@ -1,0 +1,9 @@
+MODULE main
+VAR
+  a : boolean;
+  b : boolean;
+
+MODULE other(e, f)
+VAR
+  c : boolean;
+  d : boolean;

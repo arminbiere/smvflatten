@@ -1,0 +1,4 @@
+MODULE main
+VAR
+  e : {start, ack, wait};
+  r : 0..255;

@@ -1,0 +1,24 @@
+#!/bin/sh
+
+echo "----------------------------------------------------------[Black Box Test Cases]"
+cd `dirname $0`
+
+failed=0
+ok=0
+
+for test in [0-9][0-9][0-9][0-9]
+do
+  printf "[%04s] ..." "$test"
+  if ./$test/run $*
+  then
+    echo " ok"
+    ok=`expr $ok + 1`
+  else
+    echo " failed"
+    failed=`expr $failed + 1`
+  fi
+done
+
+echo "--------------------------------------------------------------------------------"
+
+echo "$ok ok, $failed failed"

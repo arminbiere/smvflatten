@@ -1,0 +1,9 @@
+MODULE main
+VAR
+  b[0] : boolean;
+  b[1] : boolean;
+  b[2] : boolean;
+INIT
+  b[0] &
+  b[1] &
+  b[2]

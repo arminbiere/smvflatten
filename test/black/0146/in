@@ -1,0 +1,11 @@
+MODULE main
+VAR
+  a : boolean;
+  b : boolean;
+  c : boolean;
+  d : boolean;
+ASSIGN
+  next(a) := a & b;
+  next(b) := a & b;
+  next(c) := a & b;
+  next(d) := a & b;

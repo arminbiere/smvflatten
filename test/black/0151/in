@@ -1,0 +1,8 @@
+MODULE main
+VAR
+  a : boolean;
+  r : boolean;
+  s : boolean;
+ASSIGN
+  init(a) := 0;
+  next(a) := !a <-> !r & !s;

@@ -1,0 +1,17 @@
+MODULE main
+VAR
+  a@2 : boolean; --TYPE-- 0..7
+  a@1 : boolean;
+  a@0 : boolean;
+  b@2 : boolean; --TYPE-- 0..7
+  b@1 : boolean;
+  b@0 : boolean;
+INVAR
+  case
+    a@2 <-> b@2 :
+      case
+        a@1 <-> b@1 : a@0 -> b@0;
+        1 : a@1 -> b@1;
+      esac;
+    1 : a@2 -> b@2;
+  esac

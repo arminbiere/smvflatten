@@ -1,0 +1,6 @@
+MODULE main
+VAR
+  a : boolean;
+  b : boolean;
+TRANS
+  next(a & next(b))

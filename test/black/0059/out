@@ -1,0 +1,10 @@
+MODULE main
+VAR
+  running : {a, main};
+  a.c : boolean;
+ASSIGN
+  next(a.c) :=
+    case
+      running = a : !a.c;
+      1 : a.c;
+    esac;

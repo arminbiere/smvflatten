@@ -1,0 +1,7 @@
+MODULE main
+VAR
+  a : { eins, zwei, drei };
+INIT
+  a = b
+DEFINE
+  b := eins union zwei;

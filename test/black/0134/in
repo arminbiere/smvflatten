@@ -1,0 +1,17 @@
+MODULE p
+VAR
+  e : boolean;
+ASSIGN
+  init(e) := 0;
+  next(e) := !e;
+MODULE m
+VAR
+  a : process p;
+  b : process p;
+MODULE n
+VAR
+  c : process p;
+  d : process p;
+MODULE main
+ISA m
+ISA n

@@ -1,0 +1,7 @@
+MODULE main
+VAR
+  a : boolean;
+SPEC
+  a = !a
+SPEC
+  a != !a

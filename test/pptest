@@ -1,0 +1,95 @@
+#!/bin/sh
+#
+# This scripts searches for SMV files in the list of files or directories
+# given as arguments.  All files found are pretty printed with `smvflatten'
+# and the result is again fed into `smvflatten'.  The scripts checks whether
+# the pretty printing was successful, i.e. did not produce any error, and if
+# the output of the run is the same as the output of the second run.
+
+#DEBUG=yes
+
+cwd=`pwd`
+
+if [ $# -eq 0 ]
+then
+  echo "*** usage:  pptest <file-or-directory> ..." 1>&2
+  exit 1
+fi
+
+echo "-------------------------------------------------[pretty printing of some files]"
+printf "searching $* ..."
+src=`find $* -name \*.smv`
+num="`echo $src | wc -w | sed -e 's,[ 	]*,,g'`"
+
+case x"$num" in
+  x | x0)
+    echo " no smv files found"
+    exit 1
+    ;;
+  *)
+    echo " found $num smv files"
+    ;;
+esac
+
+if [ x"$DEBUG" = xyes ]
+then
+  tmp=/tmp/pp-smvflatten
+else
+  tmp=/tmp/pp-smvflatten-$$
+  trap "rm -rf $tmp" 2
+fi
+
+[ -d $tmp ] || mkdir $tmp
+[ -d $tmp/old ] || mkdir $tmp/old
+[ -d $tmp/new ] || mkdir $tmp/new
+[ -d $tmp/newnew ] || mkdir $tmp/newnew
+
+printf "copying smv files to $tmp/old ..."
+cp $src $tmp/old
+echo " done"
+
+printf "copying smvflatten ..."
+if cp `dirname $0`/../bin/smvflatten $tmp
+then
+  echo " done"
+else
+  echo " failed"
+fi
+
+ok=0
+failed=0
+
+files=`ls $tmp/old/*.smv | sed -e 's,.*/,,g' -e 's,\.smv,,g'`
+for file in $files
+do
+  printf "$file "
+  echo "phase 1: $file" >> $tmp/err
+  if $tmp/smvflatten -pp $tmp/old/${file}.smv 2>>$tmp/err 1>$tmp/new/${file}.smv
+  then
+    printf "1"
+    echo "phase 2: $file" >>$tmp/err
+    if $tmp/smvflatten -pp $tmp/new/${file}.smv 2>>$tmp/err 1>$tmp/newnew/${file}.smv
+    then
+      printf "2"
+      echo "compare: $file" >> $tmp/err
+      if cmp -s $tmp/new/${file}.smv $tmp/newnew/${file}.smv
+      then
+        echo " ok"
+	ok=`expr $ok + 1`
+      else
+	echo " comparison failed"
+	failed=`expr $failed + 1`
+      fi
+    else
+      echo " phase 2 failed"
+      failed=`expr $failed + 1`
+    fi
+  else
+    echo " phase 1 failed"
+    failed=`expr $failed + 1`
+  fi
+done
+
+echo "--------------------------------------------------------------------------------"
+echo "$ok ok, $failed failed"
+[ x"$DEBUG" = xyes ] || rm -rf $tmp

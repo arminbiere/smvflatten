@@ -1,0 +1,6 @@
+MODULE m
+VAR
+  a : m;
+MODULE main
+VAR
+  b : m;

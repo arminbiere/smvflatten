@@ -1,0 +1,12 @@
+MODULE main
+VAR
+  x@0 : boolean; --TYPE-- a b
+  y@2 : boolean; --TYPE-- a b c d e
+  y@1 : boolean;
+  y@0 : boolean;
+ASSIGN
+  y@2 := 0;
+  y@1 := 0;
+  y@0 := x@0;
+INVAR
+  !y@2 | !y@1 & !y@0

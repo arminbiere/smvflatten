@@ -1,0 +1,7 @@
+MODULE main
+VAR
+  a : boolean;
+  b : boolean;
+INVAR
+  !a &
+  b

@@ -1,0 +1,120 @@
+CC=lcc
+CC=gcc
+CFLAGS=-Isrc -DVERSION=\"@VERSION@\" -O3 -mcpu=ultrasparc -DNDEBUG
+CFLAGS=-Isrc -DVERSION=\"@VERSION@\" -O3 -mcpu=ultrasparc -g
+CFLAGS=-Isrc -DVERSION=\"@VERSION@\" -g -DYYDEBUG -DCHECK_NODE_LEAKAGE
+WARNINGS=-A
+WARNINGS=-Wall -W
+YACCLEXWARNINGS=
+YACCLEXWARNINGS=-W
+COMPILE=$(CC) $(CFLAGS) $(WARNINGS) -c
+
+LD=purify gcc
+LD=lcc
+LD=gcc
+LINK=$(LD)
+LIBS=-lccmalloc -ldl
+LIBS=
+
+YACC=bison -y -v -t
+YACC=yacc -v -t
+LEX=flex -l
+
+#--------------------------------------------------------------------------#
+
+OBJ=obj/assign.o obj/assoc.o obj/cache.o obj/check.o obj/deter.o \
+obj/encode.o obj/flatten.o obj/lex.yy.o obj/main.o obj/macros.o \
+obj/module.o obj/node.o obj/pp.o obj/prime.o obj/type.o obj/y.tab.o
+
+#--------------------------------------------------------------------------#
+
+all: obj bin bin/smvflatten
+
+obj:
+	mkdir obj
+bin:
+	mkdir bin
+clean:
+	rm -f bin/smvflatten obj/*.o
+	rm -f y.tab.h y.tab.c y.output src/y.tab.h src/y.tab.c
+	rm -f lex.yy.c src/lex.yy.c
+
+distclean: clean
+	for f in tags core .pure gmon.out prof.out; \
+	do \
+	  find . -name $$f -exec rm -f {} \; ; \
+	done
+	./test/clean
+	rm -f Makefile config.sh
+
+.PHONY: all clean distclean
+
+#--------------------------------------------------------------------------#
+
+bin/smvflatten: $(OBJ)
+	$(LINK) -o bin/smvflatten $(OBJ) $(LIBS)
+
+#--------------------------------------------------------------------------#
+
+obj/assign.o: src/assign.c src/assign.h src/assoc.h src/module.h src/node.h \
+src/y.tab.c
+	$(COMPILE) -o $@ src/assign.c
+
+obj/assoc.o: src/assoc.c src/assoc.h src/prime.h
+	$(COMPILE) -o $@ src/assoc.c
+
+obj/cache.o: src/cache.c src/cache.h src/assoc.h
+	$(COMPILE) -o $@ src/cache.c
+
+obj/check.o: src/check.c src/check.h src/assoc.h src/node.h src/y.tab.c \
+src/type.h
+	$(COMPILE) -o $@ src/check.c
+
+obj/deter.o: src/deter.c src/deter.h src/node.h src/y.tab.c src/assoc.h \
+src/type.h
+	$(COMPILE) -o $@ src/deter.c
+
+obj/encode.o: src/assoc.h src/cache.h src/encode.c src/encode.h src/module.h \
+src/node.h src/type.h src/y.tab.c
+	$(COMPILE) -o $@ src/encode.c
+
+obj/flatten.o: src/assoc.h src/cache.h src/flatten.c src/flatten.h \
+src/module.h src/node.h src/type.h src/y.tab.c
+	$(COMPILE) -o $@ src/flatten.c
+
+src/lex.yy.c: src/scanner.l
+	$(LEX) src/scanner.l
+	mv lex.yy.c src
+
+obj/lex.yy.o: src/lex.yy.c src/y.tab.c src/node.h
+	$(CC) $(CFLAGS) -c $(YACCLEXWARNINGS) -o $@ src/lex.yy.c
+
+obj/main.o: src/assign.h src/assoc.h src/check.h src/deter.h src/encode.h \
+src/flatten.h src/macros.h src/main.c src/node.h
+	$(COMPILE) -o $@ src/main.c
+
+obj/macros.o: src/macros.c src/macros.h src/assoc.h src/module.h src/node.h \
+src/y.tab.c
+	$(COMPILE) -o $@ src/macros.c
+
+obj/module.o: src/module.h src/module.c src/y.tab.c src/node.h src/assoc.h
+	$(COMPILE) -o $@ src/module.c
+
+obj/node.o: src/node.h src/node.c src/y.tab.c src/prime.h src/assoc.h
+	$(COMPILE) -o $@ src/node.c
+
+obj/pp.o: src/node.h src/pp.c src/y.tab.c src/assoc.h src/type.h
+	$(COMPILE) -o $@ src/pp.c
+
+obj/prime.o: src/prime.h src/prime.c
+	$(COMPILE) -o $@ src/prime.c
+
+obj/type.o: src/type.h src/type.c src/assoc.h src/node.h src/y.tab.c
+	$(COMPILE) -o $@ src/type.c
+
+src/y.tab.c: src/grammar.y
+	$(YACC) -d src/grammar.y
+	mv y.tab.c y.tab.h src
+
+obj/y.tab.o: src/y.tab.c src/node.h
+	$(CC) $(CFLAGS) -c $(YACCLEXWARNINGS) -Dshort=int -o $@ src/y.tab.c

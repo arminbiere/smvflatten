@@ -1,0 +1,12 @@
+MODULE main
+VAR
+  a : {drei, eins, zwei};
+  ORACLE0 : boolean;
+DEFINE
+  b :=
+    case
+      ORACLE0 : eins;
+      1 : zwei;
+    esac;
+INIT
+  a = b

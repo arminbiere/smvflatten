@@ -1,0 +1,5 @@
+MODULE main
+VAR
+  a : 0..7;
+INVAR
+  a <= 6

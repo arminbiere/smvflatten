@@ -1,0 +1,20 @@
+MODULE main
+VAR
+  running@2 : boolean; --TYPE-- a b c d main
+  running@1 : boolean;
+  running@0 : boolean;
+  a.e : boolean;
+  b.e : boolean;
+  c.e : boolean;
+  d.e : boolean;
+ASSIGN
+  init(a.e) := 0;
+  next(a.e) := !a.e <-> !running@2 & !running@1 & !running@0;
+  init(b.e) := 0;
+  next(b.e) := !b.e <-> !running@2 & !running@1 & running@0;
+  init(c.e) := 0;
+  next(c.e) := !c.e <-> !running@2 & running@1 & !running@0;
+  init(d.e) := 0;
+  next(d.e) := !d.e <-> !running@2 & running@1 & running@0;
+INVAR
+  !running@2 | !running@1 & !running@0

@@ -1,0 +1,11 @@
+MODULE main
+VAR
+  a : boolean;
+  b : { eins, zwei, drei, vier, fuenf };
+ASSIGN
+  init(a) := {0, 1};
+  next(b) :=
+    case
+      a : { eins, drei, fuenf };
+      1 : { zwei, vier };
+    esac;

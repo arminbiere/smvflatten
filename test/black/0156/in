@@ -1,0 +1,11 @@
+MODULE main
+VAR
+  a : boolean;
+  b : boolean;
+  c : boolean;
+INIT
+  c <->
+  case
+    a : { 0, 1 };
+    1 : b;
+  esac

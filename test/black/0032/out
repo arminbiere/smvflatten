@@ -1,0 +1,5 @@
+MODULE main
+INIT
+  !b
+VAR
+  b : boolean;

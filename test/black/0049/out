@@ -1,0 +1,8 @@
+MODULE main
+VAR
+  ORACLE0 : {eins, zwei};
+  a : {drei, eins, zwei};
+ASSIGN
+  init(a) := eins;
+TRANS
+  next(a) = ORACLE0

@@ -1,0 +1,6 @@
+MODULE main
+VAR
+  x : {a, b};
+  y : {a, b, c, d, e};
+ASSIGN
+  y := x;

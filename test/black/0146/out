@@ -1,0 +1,13 @@
+MODULE main
+VAR
+  a : boolean;
+  b : boolean;
+  c : boolean;
+  d : boolean;
+DEFINE
+  MACRO0 := a & b;
+ASSIGN
+  next(a) := MACRO0;
+  next(b) := MACRO0;
+  next(c) := MACRO0;
+  next(d) := MACRO0;

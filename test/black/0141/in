@@ -1,0 +1,3 @@
+MODULE m(a)
+MODULE main
+ISA m

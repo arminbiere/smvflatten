@@ -1,0 +1,10 @@
+MODULE m(p)
+VAR
+  a : boolean;
+ASSIGN
+  init(a) := 0;
+  next(a) := p.b.a;
+
+MODULE main
+VAR
+  b : m(self);

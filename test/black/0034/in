@@ -1,0 +1,7 @@
+MODULE m(p)
+DEFINE
+  p := 0;
+MODULE main
+VAR
+  a : m(b);
+  b : boolean;

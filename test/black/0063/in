@@ -1,0 +1,7 @@
+MODULE main
+VAR
+  a : boolean;
+  b : 0..1;
+  c : {0, 1};
+SPEC
+  a & b & c

@@ -1,0 +1,12 @@
+MODULE m(s)
+VAR
+  c : boolean;
+ASSIGN
+  init(c) := s;
+  next(c) := !c;
+MODULE main
+VAR
+  a : process m(0);
+  b : process m(0);
+SPEC
+  AG !(a.c & b.c)

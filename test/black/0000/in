@@ -1,0 +1,5 @@
+MODULE main
+
+MODULE m1(a)
+
+MODULE m2(b, c, d)

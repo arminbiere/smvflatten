@@ -1,0 +1,7 @@
+MODULE main
+VAR
+  a : boolean;
+  b : 0..2;
+INIT
+  a = b &
+  a = b

@@ -1,0 +1,13 @@
+MODULE m
+VAR
+  s : boolean;
+ASSIGN
+  next(s) := !s;
+
+MODULE p
+VAR
+  m : array 0..1 of m;
+
+MODULE main
+VAR
+  p : process p;

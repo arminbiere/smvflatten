@@ -1,0 +1,6 @@
+MODULE main
+VAR
+  b : boolean;
+  a : boolean;
+TRANS
+  a <-> next(b)

@@ -1,0 +1,11 @@
+#!/bin/sh
+
+cd `dirname $0`
+if [ ! -d tmp ]; then mkdir tmp; fi
+rm -f smvflatten
+ln -s ../../../bin/smvflatten .
+cd tmp
+
+../../../../bin/smvflatten $* -enc ../in 1>log 2>err || exit 1
+cmp -s log ../out || exit 1
+exit 0

@@ -1,0 +1,16 @@
+MODULE n(a)
+VAR
+  e : array 0..255 of boolean;
+INIT
+  a
+
+MODULE m(a)
+VAR
+  d : n(a);
+
+MODULE main
+VAR
+  a : array 0..2 of m(b);
+  b : boolean;
+INIT
+  a[0].d.e[127]

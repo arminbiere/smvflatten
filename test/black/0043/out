@@ -1,0 +1,26 @@
+MODULE main
+VAR
+  m1.a : boolean;
+  m1.b : 0..2;
+  n1.c : boolean;
+  n1.d : 1..3;
+  m2.a : boolean;
+  m2.b : 0..2;
+  n2.c : boolean;
+  n2.d : 1..3;
+SPEC
+  m1.a
+SPEC
+  m1.b = 1
+SPEC
+  n1.c
+SPEC
+  n1.d = 3
+SPEC
+  m2.a
+SPEC
+  m2.b = 1
+SPEC
+  n2.c
+SPEC
+  n2.d = 3

@@ -1,0 +1,12 @@
+MODULE n
+VAR
+  a : boolean;
+ASSIGN
+  init(a) := 0;
+  next(a) := !a;
+MODULE m
+VAR
+  b : array 0..1 of process n;
+MODULE main
+VAR
+  c : array 0..1 of m;

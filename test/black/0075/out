@@ -1,0 +1,13 @@
+MODULE main
+VAR
+  a@0 : boolean; --TYPE-- 0 2
+  b@1 : boolean; --TYPE-- 0..2
+  b@0 : boolean;
+ASSIGN
+  b@1 := a@0;
+  b@0 := 0;
+INVAR
+  !b@1 | !b@0
+SPEC
+  (b@1 | !b@0) &
+  (a@0 <-> b@1)

@@ -1,0 +1,5 @@
+MODULE main
+VAR
+  running : {a, b, main};
+  a.c : boolean;
+  b.c : boolean;

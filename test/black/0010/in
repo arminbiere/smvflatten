@@ -1,0 +1,11 @@
+MODULE main
+VAR
+  a : 0..7;
+  b : 0..7;
+INIT
+  a
+ASSIGN
+  init(a) := 0;
+  init(b) := 1;
+  next(a) := a + b mod 8;
+  next(b) := a + b * a mod 8;

@@ -1,0 +1,6 @@
+MODULE main
+VAR
+  a : 0..7;
+  ORACLE0 : 0..7;
+ASSIGN
+  next(a) := ORACLE0;

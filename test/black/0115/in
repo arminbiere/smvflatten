@@ -1,0 +1,5 @@
+MODULE main
+VAR
+  b : boolean;
+DEFINE
+  a := next(b);

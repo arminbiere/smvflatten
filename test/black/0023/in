@@ -1,0 +1,4 @@
+MODULE main
+VAR
+  a : boolean;
+  a : boolean;

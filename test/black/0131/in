@@ -1,0 +1,13 @@
+MODULE main
+VAR
+  counter : 0..3;
+ASSIGN
+  init(counter) := 0;
+  next(counter) :=
+    case
+      counter = 2 : 3;
+      counter = 1 : 2;
+      counter = 0 : 1;
+      1 : 0;
+    esac;
+COMPUTE MAX[counter = 1, counter = 0]

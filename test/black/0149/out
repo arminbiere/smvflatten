@@ -1,0 +1,16 @@
+MODULE main
+VAR
+  running : {main, p};
+  p.m[0].s : boolean;
+  p.m[1].s : boolean;
+ASSIGN
+  next(p.m[0].s) :=
+    case
+      running = p : !p.m[0].s;
+      1 : p.m[0].s;
+    esac;
+  next(p.m[1].s) :=
+    case
+      running = p : !p.m[1].s;
+      1 : p.m[1].s;
+    esac;

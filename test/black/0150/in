@@ -1,0 +1,7 @@
+MODULE main
+VAR
+  a : 0..3;
+INIT
+  a > 0
+SPEC
+  a = 3

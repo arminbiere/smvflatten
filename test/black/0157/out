@@ -1,0 +1,23 @@
+MODULE main
+VAR
+  a : boolean;
+  b : 0..3;
+  c : 0..3;
+INIT
+  c = 
+  case
+    a : 0;
+    1 : b;
+  esac | c = 
+  case
+    a : 1;
+    1 : b;
+  esac | c = 
+  case
+    a : 2;
+    1 : b;
+  esac | c = 
+  case
+    a : 3;
+    1 : b;
+  esac

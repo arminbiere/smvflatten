@@ -1,0 +1,11 @@
+MODULE m
+VAR
+  a : boolean;
+MODULE n
+VAR
+  b : boolean;
+MODULE main
+ISA m
+ISA n
+INVAR
+  a = b

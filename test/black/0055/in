@@ -1,0 +1,9 @@
+MODULE m
+VAR
+  eins : boolean;
+INIT
+  eins
+MODULE main
+VAR
+  m : m;
+  a : { eins, zwei };

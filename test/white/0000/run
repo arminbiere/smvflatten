@@ -1,0 +1,10 @@
+#!/bin/sh
+cd `dirname $0`
+[ -d tmp ] || mkdir tmp
+cd tmp
+[ -f Makefile ] || ln -s ../Makefile Makefile
+make 1>log 2>err || exit 1
+./a.out 1>>log 2>>err
+found=`fgrep OK log`
+[ "$found" ] && exit 1
+exit 0

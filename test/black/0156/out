@@ -1,0 +1,7 @@
+MODULE main
+VAR
+  a : boolean;
+  b : boolean;
+  c : boolean;
+INIT
+  (c <-> !a & b) | (c <-> a | b)

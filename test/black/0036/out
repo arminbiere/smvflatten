@@ -1,0 +1,9 @@
+MODULE main
+INIT
+  c[0][0] &
+  c[0][1]
+INIT
+  c[1][0] &
+  c[1][1]
+VAR
+  c : array 0..1 of array 0..1 of boolean;

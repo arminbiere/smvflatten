@@ -1,0 +1,8 @@
+MODULE main
+VAR
+  a : boolean;
+  b : boolean;
+SPEC
+  A [ (!a) = b U !a = b ]
+SPEC
+  E [ !(a <-> b) U !a <-> b ]

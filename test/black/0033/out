@@ -1,0 +1,11 @@
+MODULE main
+VAR
+  c[0][0] : boolean;
+  c[0][1] : boolean;
+  c[1][0] : boolean;
+  c[1][1] : boolean;
+INIT
+  c[0][0] &
+  c[0][1] &
+  c[1][0] &
+  c[1][1]

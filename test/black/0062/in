@@ -1,0 +1,5 @@
+MODULE main
+VAR
+  a : {eins, zwei, drei};
+  b : {0, 2, 1};
+  c : {0, 1};

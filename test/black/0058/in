@@ -1,0 +1,7 @@
+MODULE m
+VAR
+  c : boolean;
+MODULE main
+VAR
+  a : process m;
+  b : process m;

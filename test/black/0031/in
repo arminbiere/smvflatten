@@ -1,0 +1,7 @@
+MODULE m(p)
+INIT
+  p[0] & p[1] & p[2]
+MODULE main
+VAR
+  a : m(b);
+  b : array 0..2 of boolean;

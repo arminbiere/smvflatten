@@ -1,0 +1,5 @@
+MODULE main
+VAR
+  a : -256..255;
+INVAR
+  a = -7..7

@@ -1,0 +1,23 @@
+MODULE l(p, q)
+ASSIGN
+  init(p) := first;
+  init(q) := second;
+  next(p) := next_first;
+  next(q) := next_second;
+MODULE top(p)
+VAR
+  l : l(p[0],p[1]);
+DEFINE
+  l.first := INIT1;
+  l.second := INIT2;
+MODULE main
+VAR
+  t : top(a);
+  a : array 0..3 of 0..3;
+DEFINE
+  NEXT1 := 0;
+  NEXT2 := 1;
+  t.l.next_first := NEXT1;
+  t.l.next_second := NEXT2;
+  t.INIT1 := 2;
+  t.INIT2 := 3;

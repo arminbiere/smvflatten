@@ -1,0 +1,14 @@
+MODULE n
+VAR
+  a : boolean;
+ASSIGN
+  init(a) := 0;
+  next(a) := !a;
+MODULE m
+VAR
+  b : process n;
+  c : process n;
+MODULE main
+VAR
+  d : m;
+  e : m;

@@ -1,0 +1,24 @@
+#!/bin/sh
+
+cd `dirname $0`
+if [ ! -d tmp ]; then mkdir tmp; fi
+rm -f smvflatten
+ln -s ../../../bin/smvflatten .
+. ../../../config.sh
+[ "$cmu_smv" ] || exit 1
+cd tmp
+
+$cmu_smv -r ../in 1> smv1.log 2> smv1.err || exit 1
+../smvflatten -mangle $* ../in 1>in-flat 2>err || exit 1
+$cmu_smv -r in-flat 1> smv2.log 2> smv2.err || exit 1
+
+for log in smv1.log smv2.log
+do
+  line=`fgrep 'reachable states:' smv1.log`
+  reachable=`echo $line | sed -e 's,.*: \([\.e\+0-9]*\) .*,\1,'`
+  [ "$reachable" = "1.04858e+07" ] || exit 1
+  [ "`fgrep 'is true' $log|wc -l|sed -e 's,[ 	],,g'`" = 11 ] || exit 1
+  [ "`fgrep 'is false' $log|wc -l|sed -e 's,[ 	],,g'`" = 0 ] || exit 1
+done
+
+exit 0

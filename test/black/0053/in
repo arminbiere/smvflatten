@@ -1,0 +1,5 @@
+MODULE main
+VAR
+  a : 0..1;
+ASSIGN
+  next(a) := 0..1;
