@@ -19,16 +19,17 @@ then
   #
   # you may need to add more file-names here
   #
-  for f in /usr/local/bin/cmu-smv /usr/local/bin/smv
+  for p in `printenv PATH | sed -e 's,:, ,g'`
   do
-    if [ -f $f ]
-    then
-      #
-      #  How to we check that this is really CMU-SMV???
-      #
-      cmu_smv=$f
-      break;
-    fi
+    for b in cmu-smv smv
+    do
+      f=$p/$b
+      if [ -f $f ]
+      then
+	cmu_smv=$f
+	break;
+      fi
+    done
   done
 
   if [ "$cmu_smv" ]
