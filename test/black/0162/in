@@ -1,0 +1,12 @@
+MODULE main
+VAR
+  a : 0..7;
+ASSIGN
+  init(a) := 0;
+  next(a) :=
+    case
+      a = 7 : 0;
+      1 : a + 1;
+    esac;
+SPEC
+  AG a < 7

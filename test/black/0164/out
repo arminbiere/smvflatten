@@ -1,0 +1,7 @@
+MODULE main
+VAR
+  a@0 : boolean; --TYPE-- 2..3
+  b@0 : boolean; --TYPE-- 1..2
+SPEC
+  !a@0 &
+  (!a@0 <-> b@0)

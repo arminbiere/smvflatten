@@ -1,0 +1,10 @@
+MODULE main
+VAR
+  a : 0..3;
+  b : 0..3;
+INVAR
+  b =
+    case
+      a = 3 : 0;
+      1 : a + 1;
+    esac

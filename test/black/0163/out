@@ -1,0 +1,14 @@
+MODULE main
+VAR
+  a@2 : boolean; --TYPE-- 0..7
+  a@1 : boolean;
+  a@0 : boolean;
+ASSIGN
+  init(a@2) := 0;
+  init(a@1) := 0;
+  init(a@0) := 0;
+  next(a@2) := (!a@2 <-> a@1 & a@0) & (!a@2 | !a@1 | !a@0);
+  next(a@1) := (!a@2 | !a@1 | !a@0) & (!a@1 <-> a@0);
+  next(a@0) := !a@0;
+SPEC
+  AG (!a@2 | !a@1 | !a@0)

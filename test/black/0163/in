@@ -1,0 +1,9 @@
+MODULE main
+VAR
+  a : 2..5;
+ASSIGN
+  next(a) :=
+    case
+      a = 5 : 2;
+      1 : a + 1;
+    esac;
