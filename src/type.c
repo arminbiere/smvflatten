@@ -1015,12 +1015,12 @@ static Node * tf(TfContext * context, Node * node)
 
 		    res = copy(res);
 
-		    if(verbose >= 2)
+		    if(verbose >= 3)
 		      {
 			fputs("-- [verbose]   type of `", stderr);
 			print(stderr, node);
 
-			if(verbose >= 3)
+			if(verbose >= 4)
 			  {
 			    fputs("' is `", stderr);
 			    print(stderr, res);

@@ -117,4 +117,4 @@ src/y.tab.c: src/grammar.y
 	mv y.tab.c y.tab.h src
 
 obj/y.tab.o: src/y.tab.c src/node.h
-	$(CC) $(CFLAGS) -c $(YACCLEXWARNINGS) -Dshort=int -o $@ src/y.tab.c
+	$(CC) $(CFLAGS) -c $(YACCLEXWARNINGS) -o $@ src/y.tab.c
