@@ -1,0 +1,22 @@
+SmvFlatten is a tool to flatten programs in the input language of the SMV
+model checker (CMU, Cadence, IRST).  The output is again an SMV program with
+one toplevel module and only boolean variables and operations. All
+equivalent sections of the SMV program are merged.  In addition
+undeterministic expressions are removed by syntactic quantification or the
+introduction of additional primary inputs (oracles).  SmvFlatten operates on
+the syntactical level only and does not use BDDs or MTBDDs.
+
+If you think of the SMV language as a hardware description language, then
+SmvFlatten is a rudimentary synthesis tool that compiles RTL models to gate
+level.  Some simple optimizations are included as well.
+
+The output format, the gate level SMV format, is suited as input for the
+model checker backend parser FlatSmv.  FlatSmv uses the backannotation that
+SmvFlatten puts into comments for the generation of non-flattened
+counterexample traces.  In the future we plan to add a Verilog and a VHDL
+backend as well.
+
+For more information on how to run SmvFlatten see the summary of command
+line option summary, that is printed if the '-h' option is used.
+
+Armin Biere, 18. April 2000

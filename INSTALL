@@ -1,0 +1,25 @@
+This program has only been tested under Solaris and Linux.  But it should be
+easy to port it to other 32 bit Unixes.
+
+To build and install the binary just type something similar to
+
+  cd /usr/local/src
+  gtar zxvf ~/import/smvflatten-<VERSION>-src.tar.gz
+  cd smvflatten
+  ./configure
+  make
+  install -m 755 bin/smvflatten /usr/local/bin
+
+or if you have the test cases
+
+  cd /usr/local/src
+  gtar zxvf ~/import/smvflatten-<VERSION>-src.tar.gz
+  gtar zxvf ~/import/smvflatten-<VERSION>-tst.tar.gz
+  cd smvflatten
+  ./configure
+  make
+  ./test/run
+  install -m 755 bin/smvflatten /usr/local/bin
+
+
+Armin Biere, 18. April 2000
