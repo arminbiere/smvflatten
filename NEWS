@@ -1,3 +1,7 @@
+VERSION 1.1
+
+  26. removed 'strdup' declaration, and added 'yylineno' declaration
+
 VERSION 1.0
   
   25. for portability removed '#define YYSTYPE'

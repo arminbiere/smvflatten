@@ -17,6 +17,7 @@
 #include <stdio.h>
 
 extern YYSTYPE yylval;
+extern int yylineno;
 %}
 %%
 [ \n\t]                 ;
