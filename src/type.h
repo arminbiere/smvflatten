@@ -29,12 +29,14 @@ extern unsigned get_type_position(Node * t, Node * c);
 extern void add_type(Assoc * assoc, Node * node);
 extern void range_bounds(Node * range, int * l_ptr, int * r_ptr);
 extern Node * merge_type(Node * a, Node * b);
+extern Node * intersect_type(Node * a, Node * b);
 extern unsigned ldceil(unsigned);
+extern int min_number_range(Node *);
 
 /*------------------------------------------------------------------------*/
 /* Associate with each term in the list of modules a canonical term.  The
  * caller is responsible for deleting the references of the types that are
- * stored in the association (the destination).
+ * stored in the association, the destination and the source.
  */
 extern Assoc * typify(Node * modules);
 

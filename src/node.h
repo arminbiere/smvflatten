@@ -43,8 +43,6 @@ extern Node * new(int, Node *, Node *);
 extern Node * new_simplify(int, Node *, Node *);
 extern void delete(Node *);
 extern Node * copy(Node*);
-extern void print(FILE*, Node *);
-extern void print_typped(FILE*, struct Assoc *, Node *);
 extern Node * cons(Node * head, Node * tail);
 extern Node * append(Node * head, Node * node);
 extern Node * append_tagged(int tag, Node * head, Node * rest);

@@ -949,3 +949,31 @@ void printnl(Node* node)
   fputc('\n', stdout);
 }
 
+/*------------------------------------------------------------------------*/
+
+void print_lhs_of_assignment(FILE * file, Node * node)
+{
+  switch(node -> tag)
+    {
+      case TRANSASSIGNMENT:
+        fputs("next(", file);
+	print(file, car(node));
+	fputc(')', file);
+	break;
+
+      case DEFINEASSIGNMENT:
+      case INVARASSIGNMENT:
+	print(file, car(node));
+	break;
+
+      case INITASSIGNMENT:
+        fputs("init(", file);
+	print(file, car(node));
+	fputc(')', file);
+	break;
+      
+      default:
+        assert(0);
+	break;
+    }
+}

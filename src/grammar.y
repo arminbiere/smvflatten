@@ -236,7 +236,7 @@ BOOLEAN
 |
 ARRAY NUMBER TWODOTS NUMBER OF type
 {
-  if(((int)car($2)) >= ((int)car($4))) yyerror("non valid range");
+  if(((int)car($2)) > ((int)car($4))) yyerror("non valid range");
   $$ = new(ARRAY, new(TWODOTS, $2, $4), $6);
 }
 |
@@ -281,7 +281,7 @@ range
 :
 NUMBER TWODOTS NUMBER
 {
-  if(((int)car($1)) >= ((int)car($3))) yyerror("non valid range");
+  if(((int)car($1)) > ((int)car($3))) yyerror("non valid range");
   $$ = new(TWODOTS, $1, $3);
 }
 ;

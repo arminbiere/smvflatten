@@ -6,6 +6,7 @@ rm -f smvflatten
 ln -s ../../../bin/smvflatten .
 cd tmp
 
-../../../../bin/smvflatten $* -q0 -enc -no-nnf ../in 1>log 2>err || exit 1
+../../../../bin/smvflatten $* -simp5 -q0 -enc -no-nnf ../in 1>log 2>err \
+|| exit 1
 cmp -s log ../out || exit 1
 exit 0

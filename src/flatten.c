@@ -12,6 +12,7 @@
 #include "flatten.h"
 #include "module.h"
 #include "node.h"
+#include "pp.h"
 #include "type.h"
 #include "y.tab.h"
 

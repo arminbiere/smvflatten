@@ -1,3 +1,5 @@
+#include "node.h"
+#include "pp.h"
 #include "check.h"
 #include "type.h"
 #include "y.tab.h"

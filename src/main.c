@@ -15,6 +15,7 @@
 #include "flatten.h"
 #include "macros.h"
 #include "node.h"
+#include "pp.h"
 
 /*------------------------------------------------------------------------*/
 
@@ -25,7 +26,7 @@
 
 /*------------------------------------------------------------------------*/
 
-static char * id = "$Id: main.c,v 1.3 2000-04-26 07:59:01 biere Exp $";
+static char * id = "$Id: main.c,v 1.4 2000-07-26 15:44:28 biere Exp $";
 
 /*------------------------------------------------------------------------*/
 
@@ -58,7 +59,7 @@ unsigned max_size_quantified_oracle = default_max_size_quantified_oracle;
  * There you will also find an explanation for the various simplification
  * levels.
  */
-#define default_simplification_level 1
+#define default_simplification_level 2
 unsigned simplification_level = default_simplification_level;
 
 /*------------------------------------------------------------------------*/
@@ -456,6 +457,7 @@ int main(int argc, char ** argv)
   
   if(types)
     {
+      forall_src_in_Assoc(types, (void(*)(void*)) &delete);
       forall_dst_in_Assoc(types, (void(*)(void*)) &delete);
       delete_Assoc(types);
     }

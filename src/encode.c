@@ -10,6 +10,7 @@
 #include "cache.h"
 #include "encode.h"
 #include "module.h"
+#include "pp.h"
 #include "type.h"
 #include "y.tab.h"
 
@@ -36,6 +37,7 @@ struct EncContext
   Cache * cache;
   Node * invar;
   Module module;
+  Node * type_checks;
 };
 
 /*------------------------------------------------------------------------*/
@@ -331,7 +333,7 @@ static Node * enc_var(EncContext * context, Node * var_section)
 
 /*------------------------------------------------------------------------*/
 
-static Node * reencode_subtype(EncContext * context,  Node * node)
+static Node * reencode_subtype(EncContext * context, Node * node)
 {
   Node * res, * sub_type, * one_case, * cond, * p, * num, * c, * tmp;
   int i, l, r;
@@ -389,6 +391,7 @@ static Node * enc_assignments(EncContext * context, Node * section)
 {
   Node * res, * type, * p, * assignments, * assignment, * lhs, * rhs;
   Node * enc_assignment, * enc_lhs, * enc_rhs, * arg, * tmp;
+  Node * lhs_type, * rhs_type;
   int i, n, tag, section_tag;
 
   section_tag = section -> tag;
@@ -409,8 +412,15 @@ static Node * enc_assignments(EncContext * context, Node * section)
 
 	    lhs = car(assignment);
 	    rhs = cdr(assignment);
-	    type = get_association(context -> node2type, lhs);
-	    assert(type);
+	    lhs_type = get_association(context -> node2type, lhs);
+	    assert(lhs_type);
+	    rhs_type = get_association(context -> node2type, rhs);
+	    assert(rhs_type);
+	    #if 0
+	    type = merge_type(lhs_type, rhs_type);
+	    #else
+	    type = copy(lhs_type);
+	    #endif
 	    if(is_boolean_type(type))
 	      {
 		enc_lhs = copy(lhs);
@@ -433,6 +443,7 @@ static Node * enc_assignments(EncContext * context, Node * section)
 		    res = cons(enc_assignment, res);
 		  }
 	      }
+	    delete(type);
 	    break;
 	  
 	  default:
@@ -501,33 +512,125 @@ static Node * enc_case(EncContext * context, Node * arg)
 
   extract(arg, &node, &type, &bit);
 
-  assert(bit < (int)num_bits(type));
   assert(node -> tag == CASE);
 
-  boolean_type = new(BOOLEAN, 0, 0);
-
-  for(p = car(node), res = 0; p; p = cdr(p))
+  if(bit < (int)num_bits(type))
     {
-      cond = car(car(p));
-      val = cdr(car(p));
+      boolean_type = new(BOOLEAN, 0, 0);
 
-      new_arg = combine(cond, boolean_type, 0);
-      enc_cond = enc(context, new_arg);
-      delete(new_arg);
+      for(p = car(node), res = 0; p; p = cdr(p))
+	{
+	  cond = car(car(p));
+	  val = cdr(car(p));
 
-      arg = combine(val, type, bit);
-      enc_val = enc(context, arg);
+	  new_arg = combine(cond, boolean_type, 0);
+	  enc_cond = enc(context, new_arg);
+	  delete(new_arg);
+
+	  arg = combine(val, type, bit);
+	  enc_val = enc(context, arg);
+	  delete(arg);
+
+	  tmp = new(COLON, enc_cond, enc_val);
+	  res = cons(tmp, res);
+	}
+
+      delete(boolean_type);
+
+      tmp = reverse(res);
+      delete(res);
+      res = new_simplify(CASE, tmp, 0);
+    }
+  else res = number(0);
+
+  return res;
+}
+
+/*------------------------------------------------------------------------*/
+/* Computes the carry of the two arguments at the bit position 'bit'.  The
+ * addition is performed implictely subtracting the start of the two types
+ * given for the arguments, which not necessarily have to be the real types
+ * of the arguments.  This procedure may also be used to perform the
+ * calculation of the carry for substraction.  Then the last argument should
+ * be non zero.
+ */
+static Node * enc_carry(
+  EncContext * context,
+  Node * x,
+  Node * y,
+  Node * x_type,
+  Node * y_type,
+  int bit,
+  int subtract)
+{
+  Node * arg, * enc_x, * enc_y, * res, * carry, * a, * b, * c, * tmp;
+
+  if(bit >= 0)
+    {
+      arg = combine(x, x_type, bit);
+      enc_x = enc(context, arg);
       delete(arg);
 
-      tmp = new(COLON, enc_cond, enc_val);
-      res = cons(tmp, res);
+      arg = combine(y, y_type, bit);
+      enc_y = enc(context, arg);
+      if(subtract) enc_y = new_simplify(NOT, enc_y, 0);
+      delete(arg);
+
+      carry = enc_carry(context, x, y, x_type, y_type, bit - 1, subtract);
+      a = new_simplify(AND, carry, enc_x);
+      b = new_simplify(AND, copy(carry), enc_y);
+      c = new_simplify(AND, copy(enc_x), copy(enc_y));
+      tmp = new_simplify(OR, a, b);
+      res = new_simplify(OR, tmp, c);
     }
+  else res = number(subtract ? 1 : 0);
 
-  delete(boolean_type);
+  return res;
+}
 
-  tmp = reverse(res);
-  delete(res);
-  res = new_simplify(CASE, tmp, 0);
+/*------------------------------------------------------------------------*/
+
+static Node * enc_add_aux(
+  EncContext * context,
+  Node * x,
+  Node * y,
+  Node * x_type, 
+  Node * y_type,
+  int bit,
+  int subtract)
+{
+  Node * arg, * enc_x, * enc_y, * res, * carry;
+
+  assert(bit >= 0);
+
+  arg = combine(x, x_type, bit);
+  enc_x = enc(context, arg);
+  delete(arg);
+
+  arg = combine(y, x_type, bit);
+  enc_y = enc(context, arg);
+  delete(arg);
+
+  carry = enc_carry(context, x, y, x_type, y_type, bit - 1, subtract);
+  res = new_simplify(IFF, carry, new_simplify(IFF, enc_x, enc_y));
+
+  return res;
+}
+
+/*------------------------------------------------------------------------*/
+
+static Node * enc_add(
+  EncContext * context, Node * x, Node * y, int bit, int subtract)
+{
+  Node * res, * x_type, * y_type;
+
+  x_type = get_association(context -> node2type, x);
+  y_type = get_association(context -> node2type, y);
+  assert(x_type);
+  assert(y_type);
+  assert(is_range_type(x_type));
+  assert(is_range_type(y_type));
+  res = enc_add_aux(context, x, y, x_type, y_type, bit, subtract);
 
   return res;
 }
@@ -566,7 +669,7 @@ static Node * promote_boolean(Node * node, Node * type)
 static Node * enc(EncContext * context, Node * arg)
 {
   Node * res, * a, * b, * node, * type, * arg0, * arg1, * var_type;
-  Node * case_expr, * tmp;
+  Node * case_expr, * tmp, * common;
   int tag, bit;
   unsigned pos;
 
@@ -592,10 +695,13 @@ static Node * enc(EncContext * context, Node * arg)
 
 	      case NUMBER:
 	        assert(type_contains(type, node));
-		assert(((unsigned)bit) < num_bits(type));
-		pos = get_type_position(type, node);
-		assert(pos < (1u << num_bits(type)));
-		res = number((pos & (1u << bit)) ? 1 : 0);
+		if(((unsigned)bit) < num_bits(type))
+		  {
+		    pos = get_type_position(type, node);
+		    assert(pos < (1u << num_bits(type)));
+		    res = number((pos & (1u << bit)) ? 1 : 0);
+		  }
+		else res = number(0);			/* zero extension */
 	        break;
 	      
 	      case ACCESS:
@@ -618,30 +724,28 @@ static Node * enc(EncContext * context, Node * arg)
 			else res = add_at(node, bit);
 		      }
 		    else
-		    if(is_subtype(var_type, type))
 		      {
-		        case_expr = reencode_subtype(context, node);
-			add_type(context -> node2type, case_expr);
-			arg0 = combine(case_expr, type, bit);
-			res = enc(context, arg0);
-			delete(arg0);
-
-			/* Keep a (counted) reference in the cache which  is
-			 * dangerous, since a potential reference in 
-			 * `context -> node2type' is not counted and
-			 * `node2type' may survive the cache.  Thus the
-			 * `assoc' given to `encode' should not be used
-			 * after the call to `encode'.
-			 */
-			delete(case_expr);
-		      }
-		    else
-		      {
-			fputs("*** smvflatten: can not encode `", stderr);
-			print(stderr, node);
-			fputs("' with mismatching type\n", stderr);
-			exit(1);
-			res = 0;
+			common = intersect_type(var_type, type);
+			if(common)
+			  {
+			    case_expr = reencode_subtype(context, node);
+			    add_type(context -> node2type, case_expr);
+			    arg0 = combine(case_expr, type, bit);
+			    res = enc(context, arg0);
+			    delete(arg0);
+			    delete(case_expr);
+			    delete(common);
+			  }
+			else
+			  {
+			    /* The variable does not have any value common
+			     * with 'type'.  Therefore silently return the
+			     * first value of 'type'.  The type checks
+			     * introduced in phase1 should check for this
+			     * behaviour.
+			     */
+			    res = copy(get_first_type(type));
+			  }
 		      }
 		  }
 	        break;
@@ -668,6 +772,14 @@ static Node * enc(EncContext * context, Node * arg)
 	        if(is_boolean_type(type)) res = copy(tmp);
 		else res = promote_boolean(tmp, type);
 		delete(tmp);
+		break;
+	      
+	      case PLUS:
+		res = enc_add(context, car(node), cdr(node), bit, 0);
+		break;
+	      
+	      case MINUS:
+		res = enc_add(context, car(node), cdr(node), bit, 1);
 		break;
 	      
 	      case DEFINE:
@@ -734,6 +846,7 @@ static void setup_EncContext(EncContext * context, Assoc * node2type)
   context -> node2type = node2type;
   context -> cache = new_Cache("encoder cache");
   context -> variable = 0;
+  context -> type_checks = 0;
 }
 
 /*------------------------------------------------------------------------*/
@@ -745,6 +858,12 @@ static void release_EncContext(EncContext * context)
   delete_Cache(context -> cache);
 
   delete(context -> invar);
+}
+
+/*------------------------------------------------------------------------*/
+
+static void p1(EncContext * context, Node * node)
+{
 }
 
 /*------------------------------------------------------------------------*/
@@ -789,7 +908,7 @@ static void enc_backannotate(
 	      }
 
 	    assert(!is_associated(var2type, var));
-	    associate(var2type, var, copy(type));
+	    associate(var2type, copy(var), copy(type));
 	    delete(stripped_var);
 	    break;
 
@@ -801,7 +920,7 @@ static void enc_backannotate(
 
 /*------------------------------------------------------------------------*/
 
-static void p2_and_section(Node ** section_ptr, Node * node)
+static void p3_and_section(Node ** section_ptr, Node * node)
 {
   if(*section_ptr)
     {
@@ -812,7 +931,7 @@ static void p2_and_section(Node ** section_ptr, Node * node)
 
 /*------------------------------------------------------------------------*/
 
-static void p2(EncContext * context, Node * node)
+static void p3(EncContext * context, Node * node)
 {
   Node * decl, * lhs, * rhs, * eq, * contents;
   Module * m;
@@ -826,16 +945,16 @@ static void p2(EncContext * context, Node * node)
 	  case VAR:
 	  case ASSIGN:
 	  case DEFINE:
-	    p2(context, car(node));
+	    p3(context, car(node));
 	    break;
 	  
 	  case MODULE:
-	    p2(context, cdr(node));
+	    p3(context, cdr(node));
 	    break;
 	  
 	  case LIST:
-	    p2(context, car(node));
-	    p2(context, cdr(node));
+	    p3(context, car(node));
+	    p3(context, cdr(node));
 	    break;
 	  
 	  case DEFINEASSIGNMENT:
@@ -857,7 +976,7 @@ static void p2(EncContext * context, Node * node)
 		  }
 
 		eq = new_simplify(IFF, copy(lhs), copy(rhs));
-		p2_and_section(&m -> trans, eq);
+		p3_and_section(&m -> trans, eq);
 	      }
 	    else m -> define = cons(copy(node), m -> define);
 	    break;
@@ -877,7 +996,7 @@ static void p2(EncContext * context, Node * node)
 	      {
 		lhs = car(node);
 		eq = new_simplify(IFF, copy(lhs), copy(rhs));
-		p2_and_section(&m -> trans, eq);
+		p3_and_section(&m -> trans, eq);
 
 		if(verbose >= 3)
 		  {
@@ -900,7 +1019,7 @@ static void p2(EncContext * context, Node * node)
 	      {
 		lhs = car(node);
 		eq = new_simplify(IFF, new(NEXT, copy(lhs), 0), copy(rhs));
-		p2_and_section(&m -> trans, eq);
+		p3_and_section(&m -> trans, eq);
 
 		if(verbose >= 3)
 		  {
@@ -914,17 +1033,17 @@ static void p2(EncContext * context, Node * node)
 	  
 	  case INIT:
 	    contents = car(node);
-	    if(!is_true(contents)) p2_and_section(&m -> init, copy(contents));
+	    if(!is_true(contents)) p3_and_section(&m -> init, copy(contents));
 	    break;
 
 	  case INVAR:
 	    contents = car(node);
-	    if(!is_true(contents)) p2_and_section(&m -> invar, copy(contents));
+	    if(!is_true(contents)) p3_and_section(&m -> invar, copy(contents));
 	    break;
 
 	  case TRANS:
 	    contents = car(node);
-	    if(!is_true(contents)) p2_and_section(&m -> trans, copy(contents));
+	    if(!is_true(contents)) p3_and_section(&m -> trans, copy(contents));
 	    break;
 
 	  case FAIRNESS:
@@ -950,15 +1069,34 @@ static void p2(EncContext * context, Node * node)
 }
 
 /*------------------------------------------------------------------------*/
-/* First use the type information and do a binary encoding of everything.
+/* First introduce type checking specifications for all RHS which have a
+ * type that is not subset of the type of the LHS.
  */
-static Node * phase1(EncContext * context, Assoc * node2type, Node * node)
+static void phase1(EncContext * context, Node * node)
+{
+  if(verbose >= 2) 
+    fputs(
+      "-- [verbose]   introduce type checks ... \n",
+      stderr);
+  
+  p1(context, node);
+
+  if(verbose >= 2) 
+    fprintf(
+      stderr,
+      "-- [verbose]   introduced %u type checks ... \n",
+      length(context -> type_checks));
+}
+
+/*------------------------------------------------------------------------*/
+/* Second use the type information and do a binary encoding of everything.
+ */
+static Node * phase2(EncContext * context, Node * node)
 {
   Node * res, * arg;
 
   if(verbose >= 2) fputs("-- [verbose]   binary encoding ... \n", stderr);
 
-  setup_EncContext(context, node2type);
   arg = combine(node, 0, 0);
   res = enc(context, arg);
   delete(arg);
@@ -969,11 +1107,11 @@ static Node * phase1(EncContext * context, Assoc * node2type, Node * node)
 }
 
 /*------------------------------------------------------------------------*/
-/* Second Move assignments and definitions that have a `next' operator on
+/* Third Move assignments and definitions that have a `next' operator on
  * the RHS to the TRANS section.  Also incorporate the `invar' section in
  * the context.
  */
-static Node * phase2(EncContext * context, Node * node)
+static Node * phase3(EncContext * context, Node * node)
 {
   Node * res;
 
@@ -985,7 +1123,7 @@ static Node * phase2(EncContext * context, Node * node)
   init_Module(&context -> module);
   if(!is_true(context -> invar))
     context -> module.invar = copy(context -> invar);	/* add `invar' */
-  p2(context, node);
+  p3(context, node);
   res = merge_Module(&context -> module);
   release_Module(&context -> module);
   
@@ -998,9 +1136,9 @@ static Node * phase2(EncContext * context, Node * node)
 }
 
 /*------------------------------------------------------------------------*/
-/* Third provide back annotation for sliced non boolean variables.
+/* Fourth provide back annotation for sliced non boolean variables.
  */
-static void phase3(EncContext * context, Node * res)
+static void phase4(EncContext * context, Node * res)
 {
   Assoc * var2type, * node2type;
 
@@ -1009,6 +1147,7 @@ static void phase3(EncContext * context, Node * res)
   node2type = context -> node2type;
   var2type = new_Assoc();
   enc_backannotate(node2type, res, var2type);
+  forall_src_in_Assoc(node2type, (void(*)(void*)) &delete);
   forall_dst_in_Assoc(node2type, (void(*)(void*)) &delete);
   reset_Assoc(node2type);
   map_Assoc(var2type, node2type, (void(*)(void*,void*,void*))&associate);
@@ -1025,15 +1164,11 @@ Node * encode(Assoc * node2type, Node * node)
   EncContext context;
 
   if(verbose) fputs("-- [verbose] phase 4: boolean encoding ...\n", stderr);
-
-  res = phase1(&context, node2type, node);
-
-  tmp = res;
-  res = phase2(&context, tmp);
-  delete(tmp);
-
-  phase3(&context, res);
-
+  setup_EncContext(&context, node2type);
+  phase1(&context, node);
+  res = phase2(&context, node);
+  tmp = res; res = phase3(&context, tmp); delete(tmp);
+  phase4(&context, res);
   release_EncContext(&context);
   if(verbose) fputs("-- [verbose] end of phase 4: encoded.\n", stderr);
   return res;

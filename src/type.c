@@ -7,6 +7,8 @@
  */
 /*------------------------------------------------------------------------*/
 
+#include "node.h"
+#include "pp.h"
 #include "type.h"
 #include "y.tab.h"
 
@@ -33,8 +35,8 @@ struct TfContext
 
 /*------------------------------------------------------------------------*/
 
-#define min(a, b) (((a) < (b)) ? (a) : (b))
-#define max(a, b) (((a) > (b)) ? (a) : (b))
+static int min(int a, int b) { return (((a) < (b)) ? (a) : (b)); }
+static int max(int a, int b) { return (((a) > (b)) ? (a) : (b)); }
 
 /*------------------------------------------------------------------------*/
 
@@ -321,6 +323,62 @@ int is_range_type(Node * node)
     }
   else res = 0;
 
+  return res;
+}
+
+/*------------------------------------------------------------------------*/
+
+int min_number_range(Node * node)
+{
+  int res;
+
+  assert(node);
+  assert(is_range_type(node));
+
+  switch(node -> tag)
+    {
+      case BOOLEAN:
+        res = 0;
+        break;
+
+      case TWODOTS:
+        res = (int) car(car(node));
+	break;
+      
+      default:
+        res = 0;
+	assert(0);
+	break;
+    }
+  
+  return res;
+}
+
+/*------------------------------------------------------------------------*/
+
+static int max_number_range(Node * node)
+{
+  int res;
+
+  assert(node);
+  assert(is_range_type(node));
+
+  switch(node -> tag)
+    {
+      case BOOLEAN:
+        res = 1;
+        break;
+
+      case TWODOTS:
+        res = (int) car(cdr(node));
+	break;
+      
+      default:
+        res = 0;
+	assert(0);
+	break;
+    }
+  
   return res;
 }
 
@@ -851,7 +909,7 @@ Node * intersect_type(Node * a, Node * b)
       for(p = car(a), tmp = 0; p; p = cdr(p))
         {
 	  c = car(p);
-	  if(type_contains(b, c)) tmp = cons(c, tmp);
+	  if(type_contains(b, c)) tmp = cons(copy(c), tmp);
 	}
       
       if(tmp)
@@ -927,6 +985,7 @@ static void release_TfContext(TfContext * context)
 static Node * tf(TfContext * context, Node * node)
 {
   Node * def, * res, * a, * b, * tmp, * p;
+  int l, r;
 
   if(node)
     {
@@ -967,14 +1026,14 @@ static Node * tf(TfContext * context, Node * node)
 		if(car(node) -> tag == COLON)
 		  {
 		    res = merge_type(a, b);
-		    associate(context -> node2type, node, res);
+		    associate(context -> node2type, copy(node), res);
 		  }
 		else res = 0;
 		break;
 	      
 	      case CASE:
 		res = tf(context, car(node));
-		associate(context -> node2type, node, copy(res));
+		associate(context -> node2type, copy(node), copy(res));
 		break;
 	      
 	      case COLON:
@@ -990,7 +1049,25 @@ static Node * tf(TfContext * context, Node * node)
 		delete(tmp);
 	        b = tf(context, cdr(node));	
 		res = copy(b);
-		associate(context -> node2type, node, res);
+		associate(context -> node2type, copy(node), res);
+	        break;
+	      
+	      case PLUS:
+	        a = tf(context, car(node));
+		b = tf(context, cdr(node));
+		if(!is_range_type(a) || !is_range_type(b))
+		  {
+		    fputs(
+		      "*** smvflatten: expected range type for '+'\n",
+		      stderr);
+		    exit(1);
+		  }
+		l = min_number_range(a) + min_number_range(b);
+		r = max_number_range(a) + max_number_range(b);
+		tmp = new(TWODOTS, number(l), number(r));
+		res = normalize_range(tmp);
+		delete(tmp);
+		associate(context -> node2type, copy(node), res);
 	        break;
 	      
 	      case ATOM:
@@ -1036,12 +1113,12 @@ static Node * tf(TfContext * context, Node * node)
 		    res = new(ENUM, cons(copy(node), 0), 0);
 		  }
 
-		associate(context -> node2type, node, res);
+		associate(context -> node2type, copy(node), res);
 		break;
 	      
 	      case NUMBER:
 		res = new(TWODOTS, copy(node), copy(node));
-		associate(context -> node2type, node, res);
+		associate(context -> node2type, copy(node), res);
 		break;
 
 	      case MODULE:
@@ -1064,7 +1141,7 @@ static Node * tf(TfContext * context, Node * node)
 		      "*** smvflatten: expected boolean operands\n", stderr);
 		    exit(1);
 		  }
-		associate(context -> node2type, node, res);
+		associate(context -> node2type, copy(node), res);
 		break;
 
 	      case MIN:
@@ -1098,13 +1175,13 @@ static Node * tf(TfContext * context, Node * node)
 		      "*** smvflatten: expected boolean operand\n", stderr);
 		    exit(1);
 		  }
-		associate(context -> node2type, node, res);
+		associate(context -> node2type, copy(node), res);
 		break;
 
 	      case NEXT:
 	        a = tf(context, car(node));
 		res = copy(a);
-		associate(context -> node2type, node, res);
+		associate(context -> node2type, copy(node), res);
 	        break;
 	      
 	      case LT:
@@ -1117,15 +1194,40 @@ static Node * tf(TfContext * context, Node * node)
 		a = tf(context, car(node));
 		b = tf(context, cdr(node));
 	        res = new(BOOLEAN, 0, 0);
-		associate(context -> node2type, node, res);
+		associate(context -> node2type, copy(node), res);
 		break;
 	      
 	      case TRANSASSIGNMENT:
 	      case DEFINEASSIGNMENT:
 	      case INVARASSIGNMENT:
 	      case INITASSIGNMENT:
-	        tf(context, car(node));
-	        tf(context, cdr(node));
+	        a = tf(context, car(node));
+	        b = tf(context, cdr(node));
+		if(!is_subtype(b, a))
+		  {
+		    tmp = intersect_type(a, b);
+		    if(!tmp)
+		      {
+		        fputs(
+			  "*** smvflatten: types of LHS and RHS of '",
+			  stderr);
+			print_lhs_of_assignment(stderr, node);
+			fputs(" := ...' have empty intersection\n", stderr);
+			exit(1);
+		      }
+
+		    if(tmp != b)
+		      {
+		        if(verbose >= 3)
+			  {
+			    fputs("-- [verbose]     RHS of '", stderr);
+			    print_lhs_of_assignment(stderr, node);
+			    fputs(" := ...' requires type check\n", stderr);
+			  }
+		      }
+		      
+		    delete(tmp);
+		  }
 		res = 0;
 		break;
 	      

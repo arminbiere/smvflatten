@@ -10,6 +10,7 @@
 #include "assign.h"
 #include "assoc.h"
 #include "module.h"
+#include "pp.h"
 #include "y.tab.h"
 
 /*------------------------------------------------------------------------*/
