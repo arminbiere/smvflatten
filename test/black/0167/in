@@ -1,0 +1,6 @@
+MODULE main
+VAR
+  a : 0..32767;
+  b : 0..32767;
+INVAR
+  a < b

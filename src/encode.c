@@ -82,13 +82,21 @@ static Node * combine(Node * node, Node * type, int bit)
 
 /*------------------------------------------------------------------------*/
 
-static Node * add_at(Node * node, unsigned bit)
+static Node * add_at(EncContext * context, Node * node, unsigned bit)
 {
-  Node * res, * tmp;
+  Node * res, * tmp, * type;
+  unsigned w;
 
-  tmp = new(AT, number((int) bit), 0);
-  res = append_tagged(ACCESS, node, tmp);
-  delete(tmp);
+  type = get_association(context -> node2type, node);
+  assert(type);
+  w = num_bits(type);
+  if(bit >= w) res = get_first_type(type);
+  else
+    {
+      tmp = new(AT, number((int) bit), 0);
+      res = append_tagged(ACCESS, node, tmp);
+      delete(tmp);
+    }
 
   return res;
 }
@@ -296,7 +304,7 @@ static Node * enc_var(EncContext * context, Node * var_section)
 
 	  for(i = w; i; i--)
 	    {
-	      new_v = add_at(v, i - 1);
+	      new_v = add_at(context, v, i - 1);
 	      new_decl = new(DECL, new_v, new(BOOLEAN, 0, 0));
 	      res = cons(new_decl, res);
 	    }
@@ -333,7 +341,8 @@ static Node * enc_var(EncContext * context, Node * var_section)
 
 /*------------------------------------------------------------------------*/
 
-static Node * reencode_subtype(EncContext * context, Node * node)
+static Node * reencode_subtype(
+  EncContext * context, Node * node, Node * type)
 {
   Node * res, * sub_type, * one_case, * cond, * p, * num, * c, * tmp;
   int i, l, r;
@@ -349,6 +358,11 @@ static Node * reencode_subtype(EncContext * context, Node * node)
 	for(i = r, res = 0; i >= l; i--)
 	  {
 	    num = number(i);
+	    if(!type_contains(type, num))
+	      {
+	        delete(num);
+		num = get_first_type(type);
+	      }
 
 	    if(i == r) cond = number(1);
 	    else cond = new(EQUAL, copy(node), copy(num));
@@ -362,6 +376,11 @@ static Node * reencode_subtype(EncContext * context, Node * node)
         for(p = car(sub_type), res = 0; p; p = cdr(p))
 	  {
 	    c = copy(car(p));
+	    if(!type_contains(type, c))
+	      {
+	        delete(c);
+		c = get_first_type(type);
+	      }
 
 	    if(cdr(p)) cond = new(EQUAL, copy(node), copy(c));
 	    else cond = number(1);
@@ -416,11 +435,7 @@ static Node * enc_assignments(EncContext * context, Node * section)
 	    assert(lhs_type);
 	    rhs_type = get_association(context -> node2type, rhs);
 	    assert(rhs_type);
-	    #if 0
-	    type = merge_type(lhs_type, rhs_type);
-	    #else
 	    type = copy(lhs_type);
-	    #endif
 	    if(is_boolean_type(type))
 	      {
 		enc_lhs = copy(lhs);
@@ -435,7 +450,7 @@ static Node * enc_assignments(EncContext * context, Node * section)
 	        n = num_bits(type);
 		for(i = n; i; i--)
 		  {
-		    enc_lhs = add_at(lhs, i - 1);
+		    enc_lhs = add_at(context, lhs, i - 1);
 		    arg = combine(rhs, type, i - 1);
 		    enc_rhs = enc(context, arg);
 		    delete(arg);
@@ -721,14 +736,15 @@ static Node * enc(EncContext * context, Node * arg)
 		    if(var_type == type)
 		      {
 			if(is_boolean_type(type)) res = copy(node);
-			else res = add_at(node, bit);
+			else res = add_at(context, node, bit);
 		      }
 		    else
 		      {
 			common = intersect_type(var_type, type);
 			if(common)
 			  {
-			    case_expr = reencode_subtype(context, node);
+			    case_expr = 
+			      reencode_subtype(context, node, common);
 			    add_type(context -> node2type, case_expr);
 			    arg0 = combine(case_expr, type, bit);
 			    res = enc(context, arg0);
