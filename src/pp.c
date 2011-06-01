@@ -58,7 +58,9 @@ static const char * op(int tag)
       case ESAC: return "esac";
       case EU: return "EU";
       case EX: return "EX";
+      case F: return "F";
       case FAIRNESS: return "FAIRNESS";
+      case G: return "G";
       case GE: return ">=";
       case GT: return ">";
       case IFF: return "<->";
@@ -136,6 +138,8 @@ static int is_op(int tag)
       case EF:
       case EG:
       case EX:
+      case F:
+      case G:
       case NOT:
       case UMINUS:
       case UNION:
@@ -189,6 +193,8 @@ static int is_binary(int tag)
       case EF:
       case EG:
       case EX:
+      case F:
+      case G:
       case NOT:
       case UMINUS:
         res = 0;
@@ -242,6 +248,8 @@ static int is_unary(int tag)
       case EF:
       case EG:
       case EX:
+      case F:
+      case G:
       case NOT:
       case UMINUS:
         res = 1;
@@ -290,6 +298,8 @@ static const char * tag2macro(int tag)
       case ESAC: return "ESAC";
       case EU: return "EU";
       case EX: return "EX";
+      case F: return "F";
+      case G: return "G";
       case GE: return "GE";
       case GT: return "GT";
       case IFF: return "IFF";
@@ -370,6 +380,8 @@ static int priority(int tag)
       case AF: res = 73; break;
       case EG: res = 74; break;
       case AG: res = 75; break;
+      case F: res = 70; break;
+      case G: res = 70; break;
       case E: res = 76; break;
       case A: res = 77; break;
       case UNTIL: res = 78; break;
@@ -533,6 +545,8 @@ static int is_associative(int tag)
       case EF:
       case EG:
       case EX:
+      case F:
+      case G:
       case NOT:
       case UMINUS:
       default:
