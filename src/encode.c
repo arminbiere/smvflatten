@@ -1074,7 +1074,7 @@ static void p3(EncContext * context, Node * node)
 	    if(!is_true(contents)) m -> spec = cons(copy(contents), m -> spec);
 	    break;
 	  
-	  case SPEC:
+	  case LTLSPEC:
 	    contents = car(node);
 	    if(!is_true(contents)) m -> ltlspec = 
 	      cons(copy(contents), m -> ltlspec);

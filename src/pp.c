@@ -97,7 +97,7 @@ static const char * op(int tag)
       case TWODOTS: return "..";
       case UMINUS: return "UMINUS";
       case UNION: return "union";
-      case UNTIL: return "UNTIL";
+      case UNTIL: return "until";
       case VAR: return "VAR";
       default: 
         assert(0);
@@ -322,7 +322,7 @@ static const char * tag2macro(int tag)
       case TWODOTS: return "TWODOTS";
       case UMINUS: return "UMINUS";
       case UNION: return "UNION";
-      case UNTIL: return "UNTIL";
+      case UNTIL: return "until";
       case VAR: return "VAR";
       default: return "???";
     }
