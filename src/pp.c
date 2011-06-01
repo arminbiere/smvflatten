@@ -22,6 +22,7 @@
 /*------------------------------------------------------------------------*/
 
 int mangle_identifiers = 0;
+int numbers_are_boolean = 0;
 
 /*------------------------------------------------------------------------*/
 
@@ -892,6 +893,16 @@ static void pr(
 		break;
 
 	      case NUMBER:
+	        if (numbers_are_boolean)
+		  {
+		    if (car (node)) 
+		      {
+			assert (1 == (long) car (node));
+			fputs ("TRUE", file);
+		      }
+		    else 
+		      fputs ("FALSE", file);
+		  }
 		fprintf(file, "%d", (int)(long) car(node));
 		break;
 	      

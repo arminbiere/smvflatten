@@ -35,6 +35,7 @@ extern Node * yyparse_result;
 extern const char * yyin_name;
 extern FILE * yyin;
 extern int mangle_identifiers;
+extern int numbers_are_boolean;
 
 /*------------------------------------------------------------------------*/
 
@@ -211,6 +212,7 @@ static Node * after_encode(Assoc ** assoc_ptr)
   tmp = after_determinization();
   *assoc_ptr = check(tmp);
   res = encode(*assoc_ptr, tmp);
+  numbers_are_boolean = 1;
   delete(tmp);
 
   return res;
