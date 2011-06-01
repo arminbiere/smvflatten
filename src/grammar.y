@@ -39,30 +39,31 @@ Node * yyparse_result = 0;
   Node * node;
 };
 
-%token A ACCESS AF AG AND ARRAY ASSIGN AT ATOM AU AX BOOLEAN CASE COLON COMPUTE
-%token DECL DEFINE DEFINEASSIGNMENT DIVIDE DOT E EF EG ENUM EQDEF EQUAL ESAC EU
-%token EX FAIRNESS GE GT IFF IMPLIES INIT INITASSIGNMENT INSTANCE INVAR
-%token INVARASSIGNMENT ISA LE LIST LT MAX MIN MINU MINUS MOD MODULE NEXT NOT
-%token NOTEQUAL NUMBER OF OR PLUS PROCESS SETIN SETNOTIN SMALLINIT SPEC TIMES
-%token TRANS TRANSASSIGNMENT TWODOTS UMINUS UNION UNTIL VAR
+%token A ACCESS AF AG AND ARRAY ASSIGN AT ATOM AU AX BOOLEAN CASE
+%token COLON COMPUTE DECL DEFINE DEFINEASSIGNMENT DIVIDE DOT E EF EG
+%token F G ENUM EQDEF EQUAL ESAC EU EX FAIRNESS GE GT IFF IMPLIES
+%token INIT INITASSIGNMENT INSTANCE INVAR INVARASSIGNMENT ISA LTLSPEC LE
+%token LIST LT MAX MIN MINU MINUS MOD MODULE NEXT NOT NOTEQUAL NUMBER
+%token OF OR PLUS PROCESS SETIN SETNOTIN SMALLINIT SPEC TIMES TRANS
+%token TRANSASSIGNMENT TWODOTS UMINUS UNION UNTIL VAR
 
 %type <node> A ACCESS AF AG AND ARRAY ASSIGN AT ATOM AU AX BOOLEAN CASE
-%type <node> COLON COMPUTE DECL DEFINE DEFINEASSIGNMENT DIVIDE DOT E EF EG
-%type <node> ENUM EQDEF EQUAL ESAC EU EX FAIRNESS GE GT IFF IMPLIES INIT
+%type <node> COLON COMPUTE DECL DEFINE DEFINEASSIGNMENT DIVIDE DOT E EF EG F
+%type <node> G ENUM EQDEF EQUAL ESAC EU EX FAIRNESS GE GT IFF IMPLIES INIT
 %type <node> INITASSIGNMENT INSTANCE INVAR INVARASSIGNMENT ISA LE LIST LT
-%type <node> MAX MIN MINU MINUS MOD MODULE NEXT NOT NOTEQUAL NUMBER OF OR
-%type <node> PLUS PROCESS SETIN SETNOTIN SMALLINIT SPEC TIMES TRANS
+%type <node> LTLSPEC MAX MIN MINU MINUS MOD MODULE NEXT NOT NOTEQUAL NUMBER
+%type <node> OF OR PLUS PROCESS SETIN SETNOTIN SMALLINIT SPEC TIMES TRANS
 %type <node> TRANSASSIGNMENT TWODOTS UMINUS UNION UNTIL VAR
 
 %type <node> access ands args arithmetic_unary assignment assignments basic
 %type <node> case cases compute constant constants decl decls definition
-%type <node> definitions difference division enum equals expr ges gts iff
-%type <node> implications les logical_unary lts mods module modules notequals
-%type <node> ors params port product range section sections setins setnotins
-%type <node> start sum type unary_difference unary_division unary_equals
-%type <node> unary_ges unary_gts unary_les unary_lts unary_mods
-%type <node> unary_notequals unary_product unary_setins unary_setnotins
-%type <node> unary_sum unary_unions unions variable
+%type <node> definitions difference division enum equals expr ges gts
+%type <node> iff implications les logical_unary logical_binary lts mods
+%type <node> module modules notequals ors params port product range section
+%type <node> sections setins setnotins start sum type unary_difference
+%type <node> unary_division unary_equals unary_ges unary_gts unary_les
+%type <node> unary_lts unary_mods unary_notequals unary_product unary_setins
+%type <node> unary_setnotins unary_sum unary_unions unions untils variable
 
 %%
 
@@ -183,6 +184,11 @@ FAIRNESS expr
 SPEC expr
 {
   $$ = new(SPEC, $2, 0);
+}
+|
+LTLSPEC expr
+{
+  $$ = new(LTLSPEC, $2, 0);
 }
 |
 COMPUTE compute
@@ -421,11 +427,26 @@ ors OR ands
 
 ands
 :
-logical_unary
+logical_binary
 |
-ands AND logical_unary
+ands AND logical_binary
 {
   $$ = new(AND, $1, $3);
+}
+;
+
+logical_binary
+:
+untils
+;
+
+untils
+:
+logical_unary
+|
+untils UNTIL logical_unary
+{
+  $$ = new(UNTIL, $1, $3);
 }
 ;
 
@@ -448,6 +469,12 @@ AX logical_unary
   $$ = new(AX, $2, 0);
 }
 |
+|
+F logical_unary
+{
+  $$ = new(F, $2, 0);
+}
+|
 EF logical_unary
 {
   $$ = new(EF, $2, 0);
@@ -456,6 +483,11 @@ EF logical_unary
 AF logical_unary
 {
   $$ = new(AF, $2, 0);
+}
+|
+G logical_unary
+{
+  $$ = new(G, $2, 0);
 }
 |
 EG logical_unary

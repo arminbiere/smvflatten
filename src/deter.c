@@ -353,7 +353,7 @@ static Node * next_Assignment_aux(Node * old, Node * types, int * carry_out)
 	    {
 	      assert(car(old) -> tag == NUMBER);
 
-	      n = (int) car(car(old));
+	      n = (int)(long) car(car(old));
 	      range_bounds(type, &l, &r);
 
 	      assert(l <= n);
