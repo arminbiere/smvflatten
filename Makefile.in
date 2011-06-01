@@ -59,65 +59,68 @@ bin/smvflatten: $(OBJ)
 #--------------------------------------------------------------------------#
 
 obj/assign.o: src/assign.c src/assign.h src/assoc.h src/module.h src/node.h \
-src/pp.h src/y.tab.c
+src/pp.h src/y.tab.c Makefile
 	$(COMPILE) -o $@ src/assign.c
 
-obj/assoc.o: src/assoc.c src/assoc.h src/prime.h
+obj/assoc.o: src/assoc.c src/assoc.h src/prime.h Makefile
 	$(COMPILE) -o $@ src/assoc.c
 
-obj/cache.o: src/cache.c src/cache.h src/assoc.h
+obj/cache.o: src/cache.c src/cache.h src/assoc.h Makefile
 	$(COMPILE) -o $@ src/cache.c
 
 obj/check.o: src/check.c src/check.h src/assoc.h src/node.h src/pp.h \
-src/y.tab.c src/type.h
+src/y.tab.c src/type.h Makefile
 	$(COMPILE) -o $@ src/check.c
 
 obj/deter.o: src/deter.c src/deter.h src/node.h src/y.tab.c src/assoc.h \
-src/pp.h src/type.h
+src/pp.h src/type.h Makefile
 	$(COMPILE) -o $@ src/deter.c
 
 obj/encode.o: src/assoc.h src/cache.h src/encode.c src/encode.h src/module.h \
-src/node.h src/pp.h src/type.h src/y.tab.c
+src/node.h src/pp.h src/type.h src/y.tab.c Makefile
 	$(COMPILE) -o $@ src/encode.c
 
 obj/flatten.o: src/assoc.h src/cache.h src/flatten.c src/flatten.h \
-src/module.h src/node.h src/pp.h src/type.h src/y.tab.c
+src/module.h src/node.h src/pp.h src/type.h src/y.tab.c Makefile
 	$(COMPILE) -o $@ src/flatten.c
 
-src/lex.yy.c: src/scanner.l
+src/lex.yy.c: src/scanner.l Makefile
 	$(LEX) src/scanner.l
 	mv lex.yy.c src
 
-obj/lex.yy.o: src/lex.yy.c src/y.tab.c src/node.h
+obj/lex.yy.o: src/lex.yy.c src/y.tab.c src/node.h Makefile
 	$(CC) $(CFLAGS) $(YACCLEXWARNINGS) -c -o $@ src/lex.yy.c
 
 obj/main.o: src/assign.h src/assoc.h src/check.h src/deter.h src/encode.h \
-src/flatten.h src/macros.h src/main.c src/node.h src/pp.h
+src/flatten.h src/macros.h src/main.c src/node.h src/pp.h Makefile
 	$(COMPILE) -o $@ src/main.c
 
 obj/macros.o: src/macros.c src/macros.h src/assoc.h src/module.h src/node.h \
-src/y.tab.c
+src/y.tab.c Makefile
 	$(COMPILE) -o $@ src/macros.c
 
-obj/module.o: src/module.h src/module.c src/y.tab.c src/node.h src/assoc.h
+obj/module.o: src/module.h src/module.c src/y.tab.c src/node.h src/assoc.h \
+Makefile
 	$(COMPILE) -o $@ src/module.c
 
 obj/node.o: src/node.h src/node.c src/y.tab.c src/prime.h src/assoc.h \
-src/pp.h
+src/pp.h Makefile
 	$(COMPILE) -o $@ src/node.c
 
-obj/pp.o: src/node.h src/pp.c src/pp.h src/y.tab.c src/assoc.h src/type.h
+obj/pp.o: src/node.h src/pp.c src/pp.h src/y.tab.c src/assoc.h src/type.h \
+Makefile
 	$(COMPILE) -o $@ src/pp.c
 
-obj/prime.o: src/prime.h src/prime.c
+obj/prime.o: src/prime.h src/prime.c Makefile
 	$(COMPILE) -o $@ src/prime.c
 
-obj/type.o: src/type.h src/type.c src/assoc.h src/node.h src/pp.h src/y.tab.c
+obj/type.o: src/type.h src/type.c src/assoc.h src/node.h src/pp.h \
+src/y.tab.c Makefile
 	$(COMPILE) -o $@ src/type.c
 
-src/y.tab.c: src/grammar.y
+src/y.tab.c: src/grammar.y Makefile
 	$(YACC) -d src/grammar.y
 	mv y.tab.c y.tab.h src
 
-obj/y.tab.o: src/y.tab.c src/node.h
+obj/y.tab.o: src/y.tab.c src/node.h Makefile
 	$(CC) $(CFLAGS) -c $(YACCLEXWARNINGS) -o $@ src/y.tab.c
