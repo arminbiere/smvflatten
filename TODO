@@ -1,7 +1,0 @@
-1. handle arithmetic operators after determinization
-
-2. order oracles appropriately
-
-3. Seperate Code into a library.
-
-4. Reengineer what exactly SMV does with a combination of TRANS and process
