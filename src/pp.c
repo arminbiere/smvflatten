@@ -903,7 +903,8 @@ static void pr(
 		    else 
 		      fputs ("FALSE", file);
 		  }
-		fprintf(file, "%d", (int)(long) car(node));
+		else
+		  fprintf(file, "%d", (int)(long) car(node));
 		break;
 	      
 	      case TRANSASSIGNMENT:
