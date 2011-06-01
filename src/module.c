@@ -120,6 +120,7 @@ Node * merge_Module(Module * module)
    */
   res = add_sections(COMPUTE, module -> compute, res);
   res = add_sections(SPEC, module -> spec, res);
+  res = add_sections(LTLSPEC, module -> ltlspec, res);
   res = add_sections(FAIRNESS, module -> fairness, res);
   res = add_section(TRANS, module -> trans, res);
   res = add_section(INVAR, module -> invar, res);
@@ -147,6 +148,7 @@ void init_Module(Module * module)
   module -> trans = 0;
   module -> fairness = 0;
   module -> spec = 0;
+  module -> ltlspec = 0;
   module -> compute = 0;
 }
 
@@ -156,6 +158,7 @@ void release_Module(Module * module)
 {
   delete(module -> compute);
   delete(module -> spec);
+  delete(module -> ltlspec);
   delete(module -> fairness);
   delete(module -> trans);
   delete(module -> init);
@@ -175,6 +178,7 @@ Node ** section_Module(Module * module, Node * node)
     {
       case COMPUTE: res = &module -> compute; break;
       case SPEC: res = &module -> spec; break;
+      case LTLSPEC: res = &module -> ltlspec; break;
       case FAIRNESS: res = &module -> fairness; break;
       case TRANS: res = &module -> trans; break;
       case INIT: res = &module -> init; break;

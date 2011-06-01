@@ -808,6 +808,7 @@ static Node * enc(EncContext * context, Node * arg)
 	      case TRANS:
 	      case FAIRNESS:
 	      case SPEC:
+	      case LTLSPEC:
 	        type = new(BOOLEAN, 0, 0);
 		arg0 = combine(car(node), type, 0);
 		a = enc(context, arg0);
@@ -1071,6 +1072,12 @@ static void p3(EncContext * context, Node * node)
 	  case SPEC:
 	    contents = car(node);
 	    if(!is_true(contents)) m -> spec = cons(copy(contents), m -> spec);
+	    break;
+	  
+	  case SPEC:
+	    contents = car(node);
+	    if(!is_true(contents)) m -> ltlspec = 
+	      cons(copy(contents), m -> ltlspec);
 	    break;
 	  
 	  case COMPUTE:

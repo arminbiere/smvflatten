@@ -667,6 +667,7 @@ static void dt_sections(DtContext * context, Node * node)
 
 	  case FAIRNESS:
 	  case SPEC:
+	  case LTLSPEC:
 	  case COMPUTE:
 	    ptr = section_Module(&context -> module, node);
 	    tmp = dt(context, car(node));

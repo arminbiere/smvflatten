@@ -144,6 +144,7 @@ static void cnc(CNCContext * context, Node * node)
 	  case INVAR:
 	  case NUMBER:
 	  case SPEC:
+	  case LTLSPEC:
 	  case TRANS:
 	  case VAR:
 	    break;

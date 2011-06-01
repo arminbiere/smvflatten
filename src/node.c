@@ -1170,6 +1170,7 @@ Node * new_simplify(int tag, Node * head, Node * tail)
      is_true(car(head)) &&
      (head -> tag == INVAR || 
       head -> tag == SPEC ||
+      head -> tag == LTLSPEC ||
       head -> tag == TRANS ||
       head -> tag == INIT))
     {

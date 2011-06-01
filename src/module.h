@@ -28,6 +28,7 @@ struct Module_
   Node * trans;
   Node * fairness;
   Node * spec;
+  Node * ltlspec;
   Node * compute;
 };
 

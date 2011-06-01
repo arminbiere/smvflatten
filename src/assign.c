@@ -82,6 +82,7 @@ static void init_assignments(ExAssignmentsContext * context, Node * node)
 	  case INVAR:
 	  case TRANS:
 	  case SPEC:
+	  case LTLSPEC:
 	  case FAIRNESS:
 	  case COMPUTE:
 	    break;
@@ -351,6 +352,7 @@ static void ea(ExAssignmentsContext * context, Node * node)
 	  case COMPUTE:
 	  case FAIRNESS:
 	  case SPEC:
+	  case LTLSPEC:
 	    ptr = section_Module(m, node);
 	    *ptr = cons(copy(car(node)), *ptr);
 	    break;

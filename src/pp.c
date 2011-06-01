@@ -90,6 +90,7 @@ static const char * op(int tag)
       case SETNOTIN: return "notin";
       case SMALLINIT: return "init";
       case SPEC: return "SPEC";
+      case LTLSPEC: return "LTLSPEC";
       case TIMES: return "*";
       case TRANS: return "TRANS";
       case TRANSASSIGNMENT: return "TRANSASSIGNMENT";
@@ -315,6 +316,7 @@ static const char * tag2macro(int tag)
       case SETNOTIN: return "SETNOTIN";
       case SMALLINIT: return "SMALLINIT";
       case SPEC: return "SPEC";
+      case LTLSPEC: return "LTLSPEC";
       case TIMES: return "TIMES";
       case TRANS: return "TRANS";
       case TWODOTS: return "TWODOTS";
@@ -344,6 +346,7 @@ static int priority(int tag)
       case TRANS: res = 21; break;
       case INVAR: res = 22; break;
       case SPEC: res = 25; break;
+      case LTLSPEC: res = 25; break;
       case ASSIGN: res = 30; break;
       case BOOLEAN: res = 36; break;
       case ARRAY: res = 37; break;
@@ -902,6 +905,7 @@ static void pr(
 	      case TRANS:
 	      case INVAR:
 	      case SPEC:
+	      case LTLSPEC:
 	      case FAIRNESS:
 		fputs(op(node -> tag), file);
 		pr_toplevel_conjunction(file, 1, car(node), 0);

@@ -1236,6 +1236,7 @@ static Node * tf(TfContext * context, Node * node)
 	      case TRANS:
 	      case FAIRNESS:
 	      case SPEC:
+	      case LTLSPEC:
 		a = tf(context, car(node));
 	        tmp = new(BOOLEAN, 0, 0);
 		if(!is_subtype(a, tmp))

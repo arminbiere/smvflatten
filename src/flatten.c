@@ -1310,6 +1310,7 @@ static void check_all_defined(Result * result)
 
   check_defined(result, result -> module.fairness);
   check_defined(result, result -> module.spec);
+  check_defined(result, result -> module.ltlspec);
   check_defined(result, result -> module.compute);
 }
 

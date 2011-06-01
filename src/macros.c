@@ -270,6 +270,11 @@ static void em_toplevel(ExMacrosContext * context, Node * node)
 	    m -> spec = cons(macro, m -> spec);
 	    break;
 
+	  case LTLSPEC:
+	    macro = em(context, car(node));
+	    m -> ltlspec = cons(macro, m -> ltlspec);
+	    break;
+
 	  default:
 	    assert(!"valid tag");
 	    break;
