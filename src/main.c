@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------*/
-/* Copyright 1999-2000 Armin Biere.
+/* Copyright 1999-2011 Armin Biere.
  *
  * All rights reserved.
  *
@@ -26,7 +26,7 @@
 
 /*------------------------------------------------------------------------*/
 
-static char * id = "$Id: main.c,v 1.5 2000-08-02 09:29:01 biere Exp $";
+static char * id = "$invalid$";
 
 /*------------------------------------------------------------------------*/
 
@@ -89,7 +89,7 @@ static void print_version(void)
 {
   printf(
     "smvflatten version " VERSION "\n"
-    "(C)opyright 2000 by Armin Biere\n"
+    "(C)opyright 2011 by Armin Biere\n"
     "%s\n", id);
 }
 
@@ -98,7 +98,7 @@ static void print_version(void)
 static void usage(void)
 {
   printf(
-"(C)opyright 2000 by Armin Biere.  All rights reserved.\n"
+"(C)opyright 2011 by Armin Biere.  All rights reserved.\n"
 "Do not copy without permission of the author.\n"
 "\n"
 "usage:  smvflatten <options> <file>\n"

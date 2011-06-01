@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------*/
-/* Copyright 1999-2000 Armin Biere.
+/* Copyright 1999-2011 Armin Biere.
  *
  * All rights reserved.
  *
