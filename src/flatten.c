@@ -93,6 +93,7 @@ static void gen_constants(Node * node, Result * res)
 	  case TRANS:
 	  case FAIRNESS:
 	  case SPEC:
+	  case LTLSPEC:
 	  case COMPUTE:
 	  case ASSIGN:
 	  case DEFINE:
@@ -145,6 +146,7 @@ static void gp(Assoc * modules, Node * node, Node * context, Node ** res_ptr)
 	  case INIT:
 	  case INVAR:
 	  case SPEC:
+	  case LTLSPEC:
 	  case COMPUTE:
 	  case TRANS:
 	    break;
@@ -236,6 +238,7 @@ static void check_non_recursive_modules(
 	  case TRANS:
 	  case FAIRNESS:
 	  case SPEC:
+	  case LTLSPEC:
 	  case COMPUTE:
 	  case DEFINE:
 	  case ASSIGN:
@@ -949,6 +952,7 @@ static void ft_sections(Context * context, Node * node)
 	  case COMPUTE:
 	  case FAIRNESS:
 	  case SPEC:
+	  case LTLSPEC:
 	    tmp = ft(context, car(section), 0);
 	    ptr = section_Module(&result -> module, section);
 	    *ptr = cons(tmp, *ptr);
