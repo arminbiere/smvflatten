@@ -40,8 +40,8 @@ static void init_occurences(Assoc * occurences, Node * node)
 
   if(node)
     {
-      old = (unsigned) get_association(occurences, node);
-      if(old < 2) associate(occurences, node, (void*)(old + 1));
+      old = (long) get_association(occurences, node);
+      if(old < 2) associate(occurences, node, (void*)(long)(old + 1));
 
       switch(node -> tag)
         {
@@ -155,8 +155,8 @@ static Node * em(ExMacrosContext * context, Node * node)
 	    }
 	  else
 	    {
-	      ref = (unsigned)get_association(context->occurences, node) +
-		    (unsigned)get_association(context->occurences, not_node);
+	      ref = (long)get_association(context->occurences, node) +
+		    (long)get_association(context->occurences, not_node);
 
 	      delete(not_node);
 

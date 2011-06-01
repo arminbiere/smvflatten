@@ -151,8 +151,8 @@ static void gp(Assoc * modules, Node * node, Node * context, Node ** res_ptr)
 
 	  case ARRAY:
 
-	    l = (int) car(car(car(node)));
-	    r = (int) car(cdr(car(node)));
+	    l = (long)car(car(car(node)));
+	    r = (long)car(cdr(car(node)));
 	    assert(l <= r);
 
 	    for(i = l; i <= r; i++)
@@ -247,7 +247,7 @@ static void check_non_recursive_modules(
 	    if(tag == INSTANCE) name = car(car(node));
 	    else name = car(node);
 
-	    mark = (unsigned) get_association(cache, name);
+	    mark = (long)get_association(cache, name);
 	    if(mark & IS_ON_STACK)
 	      {
 	        fputs("*** smvflatten: module `", stderr);
@@ -1170,8 +1170,8 @@ static Node * ft(Context * context, Node * node, unsigned add_next)
 	    assert(car(car(node)) -> tag == NUMBER);
 	    assert(cdr(car(node)) -> tag == NUMBER);
 
-	    l = (int) car(car(car(node)));
-	    r = (int) car(cdr(car(node)));
+	    l = (long)car(car(car(node)));
+	    r = (long)car(cdr(car(node)));
 
 	    assert(l < r);
 

@@ -53,7 +53,7 @@ static void extract(Node * arg, Node ** node, Node ** type, int * bit)
       p = cdr(p);
       *type = car(p);
       p = cdr(p);
-      *bit = (int) car(car(p));
+      *bit = (long)car(car(p));
     }
   else
     {

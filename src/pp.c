@@ -466,7 +466,7 @@ static void pr_access(FILE * file, Node * node)
       if(mangle_identifiers) fputs("_a_", file);
       else fputc('@', file);
 
-      fprintf(file, "%u", (unsigned) car(car(p)));
+      fprintf(file, "%u", (int)(long) car(car(p)));
     }
 }
 
@@ -584,7 +584,7 @@ static unsigned get_at_index(Node * node)
     {
       case AT:
         number = car(node);
-	res = (unsigned) car(number);
+	res = (long) car(number);
 	break;
       
       case ACCESS:
@@ -875,7 +875,7 @@ static void pr(
 		break;
 
 	      case NUMBER:
-		fprintf(file, "%d", (int) car(node));
+		fprintf(file, "%d", (int)(long) car(node));
 		break;
 	      
 	      case TRANSASSIGNMENT:

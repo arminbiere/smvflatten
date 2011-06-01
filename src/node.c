@@ -17,7 +17,7 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <strings.h>
+#include <string.h>
 
 /*------------------------------------------------------------------------*/
 
@@ -134,10 +134,10 @@ static unsigned hash(Node * a)
   res = ((unsigned)ATOM) * 999983;
 
   if(a -> tag == ATOM) tmp = hash_string((char*) car(a));
-  else tmp = (unsigned) car(a);
+  else tmp = (long) car(a);
 
   res += tmp * 3999971;
-  res += ((unsigned)cdr(a)) * 9973;
+  res += ((long)cdr(a)) * 9973;
 
   return res;
 }
@@ -1463,7 +1463,7 @@ Node * new_macro(void)
 
 Node * number(int n)
 {
-  return new(NUMBER, (Node*) n, 0);
+  return new(NUMBER, (Node*) (long)n, 0);
 }
 
 /*------------------------------------------------------------------------*/
@@ -1753,7 +1753,7 @@ int is_true(Node * n)
 {
   int res;
 
-  res = (n && n -> tag == NUMBER && 1 == (int) car(n));
+  res = (n && n -> tag == NUMBER && 1 == (long) car(n));
 
   return res;
 }
@@ -1764,7 +1764,7 @@ int is_false(Node * n)
 {
   int res;
 
-  res = (n && n -> tag == NUMBER && 0 == (int) car(n));
+  res = (n && n -> tag == NUMBER && 0 == (long) car(n));
 
   return res;
 }
@@ -1979,8 +1979,8 @@ int cmp_Node(Node * a, Node * b)
 	{
 	  if(b -> tag == NUMBER)
 	    {
-	      l = (int) car(a);
-	      r = (int) car(b);
+	      l = (long) car(a);
+	      r = (long) car(b);
 
 	      res = (l < r) ? -1 : 1;
 	    }
@@ -2002,8 +2002,8 @@ int cmp_Node(Node * a, Node * b)
       else
       if(a -> tag == AT && b -> tag == AT)
 	{
-	  l = (int) car(car(a));
-	  r = (int) car(car(b));
+	  l = (long) car(car(a));
+	  r = (long) car(car(b));
 
 	  assert(l != r);
 

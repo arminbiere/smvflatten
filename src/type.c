@@ -100,10 +100,10 @@ unsigned num_bits(Node * node)
         break;
       
       case TWODOTS:
-        l = (int) car(car(node));
-        r = (int) car(cdr(node));
+        l = (long) car(car(node));
+        r = (long) car(cdr(node));
 	assert(l <= r);
-	w = (unsigned)(r - l + 1);
+	w = (long)(r - l + 1);
         res = ldceil(w);
         break;
       
@@ -128,7 +128,7 @@ unsigned size_type(Node * type)
       case TWODOTS:
       case BOOLEAN:
 	range_bounds(type, &l, &r);
-	res = (unsigned)(r - l + 1);
+	res = (long)(r - l + 1);
 	break;
       
       case ENUM:
@@ -230,13 +230,13 @@ static int min_number_enumeration(Node * node)
   p = car(node);
   n = car(p);
   assert(n -> tag == NUMBER);
-  res = (int) car(n);
+  res = (long) car(n);
 
   for(p = cdr(p); p; p = cdr(p))
     {
       n = car(p);
       assert(n -> tag == NUMBER);
-      tmp = (int) car(n);
+      tmp = (long) car(n);
       if(tmp < res) res = tmp;
     }
   
@@ -256,13 +256,13 @@ static int max_number_enumeration(Node * node)
   p = car(node);
   n = car(p);
   assert(n -> tag == NUMBER);
-  res = (int) car(n);
+  res = (long) car(n);
 
   for(p = cdr(p); p; p = cdr(p))
     {
       n = car(p);
       assert(n -> tag == NUMBER);
-      tmp = (int) car(n);
+      tmp = (long) car(n);
       if(tmp > res) res = tmp;
     }
   
@@ -342,7 +342,7 @@ int min_number_range(Node * node)
         break;
 
       case TWODOTS:
-        res = (int) car(car(node));
+        res = (long) car(car(node));
 	break;
       
       default:
@@ -370,7 +370,7 @@ static int max_number_range(Node * node)
         break;
 
       case TWODOTS:
-        res = (int) car(cdr(node));
+        res = (long) car(cdr(node));
 	break;
       
       default:
@@ -393,8 +393,8 @@ int is_boolean_type(Node * node)
       switch(node -> tag)
 	{
 	  case TWODOTS:
-	    l = (int) car(car(node));
-	    r = (int) car(cdr(node));
+	    l = (long) car(car(node));
+	    r = (long) car(cdr(node));
 	    res = (l == 0 && r == 1);
 	    return res;
 	  
@@ -550,8 +550,8 @@ void range_bounds(Node * node, int * l_ptr, int * r_ptr)
         break;
       
       case TWODOTS:
-        *l_ptr = (int) car(car(node));
-        *r_ptr = (int) car(cdr(node));
+        *l_ptr = (long) car(car(node));
+        *r_ptr = (long) car(cdr(node));
 	assert(*l_ptr <= *r_ptr);
 	break;
 
@@ -624,8 +624,8 @@ static Node * type_as_enum(Node * t)
 	break;
       
       case TWODOTS:
-        l = (int) car(car(t));
-        r = (int) car(cdr(t));
+        l = (long) car(car(t));
+        r = (long) car(cdr(t));
 	for(i = r, res = 0; i >= l; i--) res = cons(number(i), res);
 	res = new(ENUM, res, 0);
         break;
@@ -764,7 +764,7 @@ int type_contains(Node * t, Node * c)
 
 	    if(c -> tag == NUMBER)
 	      {
-		i = (int) car(c);
+		i = (long) car(c);
 	        range_bounds(t, &l, &r);
 		res = (l <= i && i <= r);
 	      }
@@ -801,7 +801,7 @@ unsigned get_type_position(Node * t, Node * c)
 
 	    if(c -> tag == NUMBER)
 	      {
-	        i = (int) car(c);
+	        i = (long) car(c);
 		range_bounds(t, &l, &r);
 	        if(l <= i && i <= r) res = i - l;
 		else res = 1 << num_bits(t);

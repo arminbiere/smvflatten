@@ -105,7 +105,7 @@ static void cnc(CNCContext * context, Node * node)
         {
 	  case ACCESS:
 	  case ATOM:
-	    mark = (unsigned) get_association(context -> mark, node);
+	    mark = (unsigned) (long)get_association(context -> mark, node);
 	    if(mark & IS_ON_STACK)
 	      {
 	        fputs("*** smvflatten: `", stderr);

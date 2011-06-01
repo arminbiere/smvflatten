@@ -12,6 +12,7 @@
 #include <assert.h>
 #include <stdio.h>
 #include <stdarg.h>
+#include <stdlib.h>
 
 extern int yylineno;
 extern int verbose;
@@ -242,7 +243,7 @@ BOOLEAN
 |
 ARRAY NUMBER TWODOTS NUMBER OF type
 {
-  if(((int)car($2)) > ((int)car($4))) yyerror("non valid range");
+  if(((long)car($2)) > ((long)car($4))) yyerror("non valid range");
   $$ = new(ARRAY, new(TWODOTS, $2, $4), $6);
 }
 |
@@ -287,7 +288,7 @@ range
 :
 NUMBER TWODOTS NUMBER
 {
-  if(((int)car($1)) > ((int)car($3))) yyerror("non valid range");
+  if(((long)car($1)) > ((long)car($3))) yyerror("non valid range");
   $$ = new(TWODOTS, $1, $3);
 }
 ;
@@ -444,9 +445,9 @@ untils
 :
 logical_unary
 |
-untils UNTIL logical_unary
+'(' logical_unary UNTIL untils ')'   // FIXME
 {
-  $$ = new(UNTIL, $1, $3);
+  $$ = new(UNTIL, $2, $4);
 }
 ;
 
@@ -468,7 +469,6 @@ AX logical_unary
 {
   $$ = new(AX, $2, 0);
 }
-|
 |
 F logical_unary
 {

@@ -97,7 +97,7 @@ static void resize_Assoc(Assoc * assoc, unsigned new_size)
     for(p = old_table[i]; p; p = tmp)
       {
         tmp = p -> next;
-	h = ((unsigned)(p -> src)) % assoc -> size;
+	h = ((unsigned)(long)(p -> src)) % assoc -> size;
 	p -> next = assoc -> table[h];
 	assoc -> table[h] = p;
       }
@@ -112,7 +112,7 @@ static AssocBucket ** find_Assoc(Assoc * assoc, void * src)
   AssocBucket ** p;
   unsigned h;
 
-  h = ((unsigned) src) % assoc -> size;
+  h = ((unsigned) (long)src) % assoc -> size;
   for(p = &assoc -> table[h]; *p && (*p) -> src != src; p = &(*p) -> next)
     ;
   
