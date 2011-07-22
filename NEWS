@@ -1,5 +1,7 @@
-VERSION 1.2
+VERSION 1.2.1
   
+  31. cache
+  30. new stricter NuSMV boolean constants
   29. LTL
   28. clean compile on 64-bit machines
 
