@@ -637,7 +637,7 @@ static int is_MSB(Node * var, Node * type)
 static void pr(
   FILE * file, Assoc * types, int indent, Node * node, int outer)
 {
-  int inner, print_parenthesis;
+  int inner, print_parenthesis, saved_numbers_are_boolean;
   Node * a, * prev, * type;
 
   if(node)
@@ -760,6 +760,7 @@ static void pr(
 		  {
 		    type = get_association(types, car(node));
 		    assert(type);
+		    saved_numbers_are_boolean = numbers_are_boolean;
 		    switch(type -> tag)
 		      {
 			case BOOLEAN:
@@ -785,6 +786,7 @@ static void pr(
 			  assert(0);
 			  break;
 		      }
+		    numbers_are_boolean = saved_numbers_are_boolean;
 		  }
 		fputc('\n', file);
 		break;
