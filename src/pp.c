@@ -761,6 +761,7 @@ static void pr(
 		    type = get_association(types, car(node));
 		    assert(type);
 		    saved_numbers_are_boolean = numbers_are_boolean;
+		    numbers_are_boolean = 0;
 		    switch(type -> tag)
 		      {
 			case BOOLEAN:
