@@ -441,6 +441,7 @@ static void pr_list(FILE * file, Node * node, int print_comma)
 
 static void pr_access(FILE * file, Node * node)
 {
+  int saved_numbers_are_boolean;
   Node * p, * head;
 
   for(p = node; p && p -> tag != AT; p = cdr(p))
@@ -454,11 +455,14 @@ static void pr_access(FILE * file, Node * node)
 	   * arrays.
 	   */
 	  case NUMBER:
+	    saved_numbers_are_boolean = numbers_are_boolean;
+	    numbers_are_boolean = 0;
 	    if(mangle_identifiers) fputs("_L_", file);
 	    else fputc('[', file);
 	    pr(file, 0, 0, head, 0);
 	    if(mangle_identifiers) fputs("_R_", file);
 	    else fputc(']', file);
+	    numbers_are_boolean = saved_numbers_are_boolean;
 	    break;
 	  
 	  case ATOM:
