@@ -1,4 +1,4 @@
-VERSION 1.2.1
+VERSION 1.2.3
   
   32. fixed array access printing of numbers to be non boolean
   31. cache
