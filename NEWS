@@ -1,5 +1,6 @@
 VERSION 1.2.1
   
+  32. fixed array access printing of numbers to be non boolean
   31. cache
   30. new stricter NuSMV boolean constants
   29. LTL
