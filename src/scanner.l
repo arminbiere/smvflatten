@@ -50,6 +50,7 @@ extern int yylineno;
 "U"                     return UNTIL;
 "F"                     return F;
 "G"                     return G;
+"G"                     return X;
 "COMPUTE"		return COMPUTE;
 "MIN"                   return MIN;
 "MAX"                   return MAX;
