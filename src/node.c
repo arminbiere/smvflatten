@@ -242,6 +242,7 @@ static void set_Node(Node * node, int tag, Node * head, Node * tail)
 	    case EX:
 	    case EU:
 	    case F:
+	    case X:
 	    case G:
 	    case MIN:
 	    case MAX:
@@ -823,6 +824,11 @@ static Node * ns(int tag, Node * head, Node * tail)
 		    case F:
 		      l = new_simplify (NOT, copy(car(head)), 0);
 		      res = new_simplify (G, l, 0);
+		      break;
+		    
+		    case X:
+		      l = new_simplify (NOT, copy(car(head)), 0);
+		      res = new_simplify (X, l, 0);
 		      break;
 		    
 		    case G:

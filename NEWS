@@ -1,3 +1,7 @@
+VERSION 1.2.4
+
+  33. support for LTL operator 'X'
+
 VERSION 1.2.3
   
   32. fixed array access printing of numbers to be non boolean

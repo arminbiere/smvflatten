@@ -1167,6 +1167,7 @@ static Node * tf(TfContext * context, Node * node)
 	      case EG:
 	      case EF:
 	      case F:
+	      case X:
 	      case G:
 	      case NOT:
 		a = tf(context, car(node));
