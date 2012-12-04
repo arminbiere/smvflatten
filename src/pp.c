@@ -738,6 +738,14 @@ static void pr(
 		fputs(" ]", file);
 		break;
 
+	      case UNTIL:
+		fputs("( ", file);
+		pr(file, types, indent, car(node), 0);
+		fputs(" U ", file);
+		pr(file, types, indent, cdr(node), 0);
+		fputs(" )", file);
+		break;
+
 	      case BOOLEAN:
 		fputs("boolean", file);
 		break;

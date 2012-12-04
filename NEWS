@@ -1,3 +1,8 @@
+VERSION 1.2.5
+ 
+  35. negative usage of AU and EU triggers 'abort'
+  34. partial support for LTL operator 'U'
+
 VERSION 1.2.4
 
   33. support for LTL operator 'X'
