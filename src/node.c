@@ -237,6 +237,7 @@ static void set_Node(Node * node, int tag, Node * head, Node * tail)
 	    case AF:
 	    case AX:
 	    case AU:
+	    case UNTIL:
 	    case EG:
 	    case EF:
 	    case EX:
@@ -797,8 +798,16 @@ static Node * ns(int tag, Node * head, Node * tail)
 		      break;
 		    
 		    case AU:
+		      // TODO incorrect?  Should use 'ER'.
 		      l = new_simplify(NOT, copy(car(head)), 0);
 		      res = new_simplify(EU, l, 0);
+		      abort ();
+		      break;
+
+		    case UNTIL:
+		      // TODO incorrect?  Should use 'R'.
+		      abort ();
+		      res = 0;
 		      break;
 		    
 		    case EF:
@@ -817,8 +826,10 @@ static Node * ns(int tag, Node * head, Node * tail)
 		      break;
 		    
 		    case EU:
+		      // TODO incorrect?  Should use 'AR'.
 		      l = new_simplify(NOT, copy(car(head)), 0);
 		      res = new_simplify(AU, l, 0);
+		      abort ();
 		      break;
 
 		    case F:

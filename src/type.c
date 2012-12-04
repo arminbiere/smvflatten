@@ -1129,6 +1129,7 @@ static Node * tf(TfContext * context, Node * node)
 	      case AND:
 	      case AU:
 	      case EU:
+	      case UNTIL:
 	      case IFF:
 	      case IMPLIES:
 	      case OR:
