@@ -78,6 +78,7 @@ extern int yylineno;
 "/"                     return DIVIDE;
 "mod"                   return MOD;
 "="                     return EQUAL;
+"xor"                   return NOTEQUAL;
 "!="                    return NOTEQUAL;
 "<="                    return LE;
 ">="                    return GE;
