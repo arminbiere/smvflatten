@@ -54,7 +54,7 @@ static void init_assignments(ExAssignmentsContext * context, Node * node)
 
 	  case DEFINE:
 	  case ASSIGN:
-	  case VAR:
+	  case IVAR:
 	    init_assignments(context, car(node));
 	    break;
 	  
@@ -344,6 +344,7 @@ static void ea(ExAssignmentsContext * context, Node * node)
 	  
 	  case DEFINE:
 	  case VAR:
+	  case IVAR:
 	  case ASSIGN:
 	    ptr = section_Module(m, node);
 	    for(p = car(node); p; p = cdr(p)) *ptr = cons(copy(car(p)), *ptr);

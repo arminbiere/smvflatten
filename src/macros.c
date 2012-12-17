@@ -217,6 +217,7 @@ static void em_toplevel(ExMacrosContext * context, Node * node)
 	    break;
 
 	  case VAR:
+	  case IVAR:
 	  case ASSIGN:
 	  case DEFINE:
 	    em_toplevel(context, car(node));

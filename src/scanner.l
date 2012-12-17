@@ -27,6 +27,7 @@ extern int yylineno;
 "MODULE"                return MODULE;
 "DEFINE"                return DEFINE;
 "VAR"                   return VAR;
+"IVAR"                  return IVAR;
 "INIT"                  return INIT;
 "TRANS"                 return TRANS;
 "INVAR"                 return INVAR;

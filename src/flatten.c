@@ -208,6 +208,7 @@ static void gp(Assoc * modules, Node * node, Node * context, Node ** res_ptr)
 	    break;
 
 	  case VAR:
+	  case IVAR:
 	  case MODULE:
 	  default:
 	    gp(modules, car(node), context, res_ptr);
@@ -933,6 +934,7 @@ static void ft_sections(Context * context, Node * node)
         {
 	  case ASSIGN:
 	  case VAR:
+	  case IVAR:
 	  case DEFINE:
 	    for(q = car(section); q; q = cdr(q)) (void) ft(context, car(q), 0);
 	    break;

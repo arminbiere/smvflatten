@@ -147,6 +147,7 @@ static void cnc(CNCContext * context, Node * node)
 	  case LTLSPEC:
 	  case TRANS:
 	  case VAR:
+	  case IVAR:
 	    break;
 	  
 	  default:

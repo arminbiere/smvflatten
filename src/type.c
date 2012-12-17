@@ -940,6 +940,7 @@ static void insert_TfContext(TfContext * context, Node * node)
 
 	  case DEFINE:
 	  case VAR:
+	  case IVAR:
 	    insert_TfContext(context, car(node));
 	    break;
 	  
@@ -1255,6 +1256,7 @@ static Node * tf(TfContext * context, Node * node)
 		break;
 	      
 	      case VAR:
+	      case IVAR:
 	      case DEFINE:
 	      case ASSIGN:
 	      case COMPUTE:

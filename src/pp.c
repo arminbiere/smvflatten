@@ -103,6 +103,7 @@ static const char * op(int tag)
       case UNION: return "union";
       case UNTIL: return "U";
       case VAR: return "VAR";
+      case IVAR: return "IVAR";
       default: 
         assert(0);
 	return 0;
@@ -340,6 +341,7 @@ static const char * tag2macro(int tag)
       case UNION: return "UNION";
       case UNTIL: return "U";
       case VAR: return "VAR";
+      case IVAR: return "IVAR";
       default: return "???";
     }
 }
@@ -357,6 +359,7 @@ static int priority(int tag)
       case AU: res = 13; break;
       case MINU: res = 16; break;
       case VAR: res = 18; break;
+      case IVAR: res = 18; break;	// TODO not really working?
       case DEFINE: res = 19; break;
       case INIT: res = 20; break;
       case TRANS: res = 21; break;
@@ -946,6 +949,11 @@ static void pr(
 
 	      case VAR:
 		fputs("VAR\n", file);
+		pr(file, types, indent, car(node), 0);
+		break;
+	      
+	      case IVAR:
+		fputs("IVAR\n", file);
 		pr(file, types, indent, car(node), 0);
 		break;
 	      

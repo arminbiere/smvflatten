@@ -127,6 +127,7 @@ Node * merge_Module(Module * module)
   res = add_section(INIT, module -> init, res);
   res = add_assign_section(module -> assign, res);
   res = add_reverse(DEFINE, module -> define, res);
+  res = add_reverse(IVAR, module -> var, res);
   res = add_reverse(VAR, module -> var, res);
 
   /* Finally add the module declaration.
@@ -190,6 +191,7 @@ Node ** section_Module(Module * module, Node * node)
       case DEFINEASSIGNMENT:
       case DEFINE: res = &module -> define; break;
       case DECL:
+      case IVAR:
       case VAR: res = &module -> var; break;
       default: res = 0; break;
     }

@@ -1,5 +1,6 @@
 VERSION 1.2.5
  
+  36. added initial support for 'IVAR'
   35. negative usage of AU and EU triggers 'abort'
   34. partial support for LTL operator 'U'
 

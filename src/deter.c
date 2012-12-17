@@ -641,6 +641,7 @@ static void dt_sections(DtContext * context, Node * node)
 
 	  case DEFINE:
 	  case ASSIGN:
+	  case IVAR:
 	  case VAR:
 	    for(p = car(node); p; p = cdr(p)) (void) dt(context, car(p));
 	    break;

@@ -284,7 +284,7 @@ static Node * enc_var(EncContext * context, Node * var_section)
   Node * b, * r;
   unsigned size;
 
-  assert(var_section -> tag == VAR);
+  assert(var_section -> tag == VAR || var_section -> tag == IVAR);
 
   for(p = car(var_section), res = 0; p; p = cdr(p))
     {
@@ -334,7 +334,7 @@ static Node * enc_var(EncContext * context, Node * var_section)
   
   tmp = reverse(res);
   delete(res);
-  res = new(VAR, tmp, 0);
+  res = new(VAR, tmp, 0);	// TODO special case for IVAR?
 
   return res;
 }
@@ -700,6 +700,7 @@ static Node * enc(EncContext * context, Node * arg)
 
 	  switch((tag = node -> tag))
 	    {
+	      case IVAR:
 	      case VAR:
 		res = enc_var(context, node);
 	        break;
@@ -898,6 +899,7 @@ static void enc_backannotate(
 	    enc_backannotate(node2type, cdr(node), var2type);
 	    break;
 
+	  case IVAR:
 	  case VAR:
 	    enc_backannotate(node2type, car(node), var2type);
 	    break;
@@ -960,6 +962,7 @@ static void p3(EncContext * context, Node * node)
       switch(node -> tag)
         {
 	  case VAR:
+	  case IVAR:
 	  case ASSIGN:
 	  case DEFINE:
 	    p3(context, car(node));

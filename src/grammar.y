@@ -46,7 +46,7 @@ Node * yyparse_result = 0;
 %token INIT INITASSIGNMENT INSTANCE INVAR INVARASSIGNMENT ISA LTLSPEC LE
 %token LIST LT MAX MIN MINU MINUS MOD MODULE NEXT NOT NOTEQUAL NUMBER
 %token OF OR PLUS PROCESS SETIN SETNOTIN SMALLINIT SPEC TIMES TRANS
-%token TRANSASSIGNMENT TWODOTS UMINUS UNION UNTIL VAR
+%token TRANSASSIGNMENT TWODOTS UMINUS UNION UNTIL VAR IVAR
 
 %type <node> A ACCESS AF AG AND ARRAY ASSIGN AT ATOM AU AX BOOLEAN CASE
 %type <node> COLON COMPUTE DECL DEFINE DEFINEASSIGNMENT DIVIDE DOT E EF EG F
@@ -54,7 +54,7 @@ Node * yyparse_result = 0;
 %type <node> INITASSIGNMENT INSTANCE INVAR INVARASSIGNMENT ISA LE LIST LT
 %type <node> LTLSPEC MAX MIN MINU MINUS MOD MODULE NEXT NOT NOTEQUAL NUMBER
 %type <node> OF OR PLUS PROCESS SETIN SETNOTIN SMALLINIT SPEC TIMES TRANS
-%type <node> TRANSASSIGNMENT TWODOTS UMINUS UNION UNTIL VAR
+%type <node> TRANSASSIGNMENT TWODOTS UMINUS UNION UNTIL VAR IVAR
 
 %type <node> access ands args arithmetic_unary assignment assignments basic
 %type <node> case cases compute constant constants decl decls definition
@@ -64,7 +64,7 @@ Node * yyparse_result = 0;
 %type <node> sections setins setnotins start sum type unary_difference
 %type <node> unary_division unary_equals unary_ges unary_gts unary_les
 %type <node> unary_lts unary_mods unary_notequals unary_product unary_setins
-%type <node> unary_setnotins unary_sum unary_unions unions untils variable
+%type <node> unary_setnotins unary_sum unary_unions unions variable
 
 %%
 
@@ -160,6 +160,11 @@ section
 VAR decls
 {
   $$ = new(VAR, $2, 0);
+}
+|
+IVAR decls
+{
+  $$ = new(IVAR, $2, 0);
 }
 |
 INIT expr
@@ -438,16 +443,13 @@ ands AND logical_binary
 
 logical_binary
 :
-untils
-;
-
-untils
-:
 logical_unary
 |
-'(' logical_unary UNTIL untils ')'   // FIXME
+logical_binary
+UNTIL 
+logical_unary
 {
-  $$ = new(UNTIL, $2, $4);
+  $$ = new(UNTIL, $1, $3);
 }
 ;
 
