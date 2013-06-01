@@ -54,6 +54,7 @@ static void init_assignments(ExAssignmentsContext * context, Node * node)
 
 	  case DEFINE:
 	  case ASSIGN:
+	  case VAR:
 	  case IVAR:
 	    init_assignments(context, car(node));
 	    break;
