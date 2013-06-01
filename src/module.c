@@ -127,7 +127,7 @@ Node * merge_Module(Module * module)
   res = add_section(INIT, module -> init, res);
   res = add_assign_section(module -> assign, res);
   res = add_reverse(DEFINE, module -> define, res);
-  res = add_reverse(IVAR, module -> var, res);
+  // res = add_reverse(IVAR, module -> ivar, res); // TODO remove?
   res = add_reverse(VAR, module -> var, res);
 
   /* Finally add the module declaration.
