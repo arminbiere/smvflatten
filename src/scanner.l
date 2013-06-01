@@ -18,6 +18,7 @@
 
 extern YYSTYPE yylval;
 extern int yylineno;
+static int ltlspec;
 %}
 %%
 [ \n\t]                 ;
@@ -32,8 +33,14 @@ extern int yylineno;
 "TRANS"                 return TRANS;
 "INVAR"                 return INVAR;
 "ISA"			return ISA;
-"SPEC"                  return SPEC;
-"LTLSPEC"               return LTLSPEC;
+"SPEC"                  {
+			  ltlspec = 0;
+  			  return SPEC;
+			}
+"LTLSPEC"               {
+			  ltlspec = 1;
+  			  return LTLSPEC;
+			}
 "FAIRNESS"		return FAIRNESS;
 "ASSIGN"                return ASSIGN;
 "process"		return PROCESS;
@@ -48,7 +55,7 @@ extern int yylineno;
 "AG"                    return AG;
 "E"                     return E;
 "A"                     return A;
-"U"                     return UNTIL;
+"U"                     return ltlspec ? UNTIL : CTLUNTIL;
 "F"                     return F;
 "G"                     return G;
 "X"                     return X;
