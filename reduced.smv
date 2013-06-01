@@ -1,0 +1,6 @@
+MODULE main
+VAR
+a:1..2;
+b:1..2;
+DEFINE
+c:=a -b;
