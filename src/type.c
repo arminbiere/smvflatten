@@ -1071,6 +1071,24 @@ static Node * tf(TfContext * context, Node * node)
 		associate(context -> node2type, copy(node), res);
 	        break;
 	      
+	      case MINUS:
+	        a = tf(context, car(node));
+		b = tf(context, cdr(node));
+		if(!is_range_type(a) || !is_range_type(b))
+		  {
+		    fputs(
+		      "*** smvflatten: expected range type for '-'\n",
+		      stderr);
+		    exit(1);
+		  }
+		l = min_number_range(a) - max_number_range(b);
+		r = max_number_range(a) - min_number_range(b);
+		tmp = new(TWODOTS, number(l), number(r));
+		res = normalize_range(tmp);
+		delete(tmp);
+		associate(context -> node2type, copy(node), res);
+	        break;
+	      
 	      case ATOM:
 	      case ACCESS:
 
