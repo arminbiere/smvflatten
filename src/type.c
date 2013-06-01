@@ -1091,7 +1091,19 @@ static Node * tf(TfContext * context, Node * node)
 
 	      case UMINUS:
 	        a = tf (context, car(node));
-		abort ();
+		if(!is_range_type(a))
+		  {
+		    fputs(
+		      "*** smvflatten: expected range type for unary '-'\n",
+		      stderr);
+		    exit(1);
+		  }
+		l = -max_number_range(a);
+		r = -min_number_range(a);
+		tmp = new(TWODOTS, number(l), number(r));
+		res = normalize_range(tmp);
+		delete(tmp);
+		associate(context -> node2type, copy(node), res);
 	        break;
 	      
 	      case ATOM:
