@@ -1088,6 +1088,11 @@ static Node * tf(TfContext * context, Node * node)
 		delete(tmp);
 		associate(context -> node2type, copy(node), res);
 	        break;
+
+	      case UMINUS:
+	        a = tf (context, car(node));
+		abort ();
+	        break;
 	      
 	      case ATOM:
 	      case ACCESS:
