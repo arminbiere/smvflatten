@@ -2,7 +2,7 @@
 #define _encode_h_INCLUDED
 
 /*------------------------------------------------------------------------*/
-/* Copyright 1999-2011 Armin Biere.
+/* Copyright 1999-2013 Armin Biere.
  *
  * All rights reserved.
  *

@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------*/
-/* Copyright 1999-2011 Armin Biere.
+/* Copyright 1999-2013 Armin Biere.
  *
  * All rights reserved.
  *
@@ -18,8 +18,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-
-/*------------------------------------------------------------------------*/
 
 /*------------------------------------------------------------------------*/
 
@@ -846,7 +844,7 @@ static Node * ns(int tag, Node * head, Node * tail)
 		      break;
 		    
 		    default:
-		      assert(0);
+		      // assert(0); // TODO remove?
 		      res = new(NOT, copy(head), 0);
 		      break;
 		  }

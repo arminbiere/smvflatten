@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------*/
-/* Copyright 1999-2011 Armin Biere.
+/* Copyright 1999-2013 Armin Biere.
  *
  * All rights reserved.
  *
@@ -99,7 +99,7 @@ static const char * op(int tag)
       case TRANS: return "TRANS";
       case TRANSASSIGNMENT: return "TRANSASSIGNMENT";
       case TWODOTS: return "..";
-      case UMINUS: return "UMINUS";
+      case UMINUS: return "-";
       case UNION: return "union";
       case UNTIL: return "U";
       case VAR: return "VAR";
