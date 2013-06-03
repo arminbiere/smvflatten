@@ -2,12 +2,12 @@ MODULE main
 VAR
  -- UAV 0
 nextp_0: 0..2;
-previous_t_0: 1..2;
+previous_t_0: 0..2;
 previous_p_0: 0..2;
 previous_target_p_0: 0..2;
  -- UAV 1
 nextp_1: 0..2;
-previous_t_1: 1..2;
+previous_t_1: 0..2;
 previous_p_1: 0..2;
 previous_target_p_1: 0..2;
 previous_cl_0:  -2..3;
