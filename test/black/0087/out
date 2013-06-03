@@ -5,8 +5,8 @@ VAR
   y@1 : boolean;
   y@0 : boolean;
 ASSIGN
-  y@2 := 0;
-  y@1 := 0;
+  y@2 := FALSE;
+  y@1 := FALSE;
   y@0 := x@0;
 INVAR
   !y@2 | !y@1 & !y@0

@@ -5,4 +5,4 @@ VAR
   y@0 : boolean;
 ASSIGN
   y@1 := x@0;
-  y@0 := 0;
+  y@0 := FALSE;

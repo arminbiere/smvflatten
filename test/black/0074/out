@@ -1,0 +1,11 @@
+MODULE main
+VAR
+  a_a_0 : boolean;
+  b_a_1 : boolean;
+  b_a_0 : boolean;
+ASSIGN
+  b_a_1 := a_a_0;
+  b_a_0 := FALSE;
+SPEC
+  !b_a_0 &
+  (a_a_0 <-> b_a_1)

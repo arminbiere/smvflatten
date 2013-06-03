@@ -30,42 +30,42 @@ VAR
   .ORACLE1 : boolean;
   .ORACLE2 : boolean;
 ASSIGN
-  init(sender.state@1) := 0;
-  init(sender.state@0) := 0;
-  init(sender.abp) := 0;
+  init(sender.state@1) := FALSE;
+  init(sender.state@0) := FALSE;
+  init(sender.abp) := FALSE;
   next(sender.state@1) := (!(running@2 & !running@1 & !running@0) | (sender.state@1 | sender.state@0) & (!sender.state@1 & sender.state@0 & s2r_in.tag@1 & s2r_in.tag@0 | !(sender.state@1 & !sender.state@0 & !r2s_out.tag@1 & (r2s_out.tag@0 <-> sender.abp)) & !(sender.state@1 & !sender.state@0 & (!r2s_out.tag@1 & (!r2s_out.tag@0 <-> sender.abp) | r2s_out.tag@1 & !r2s_out.tag@0)) & sender.state@1 & !sender.state@0 & r2s_out.tag@1 & r2s_out.tag@0)) & (sender.state@1 | running@2 & !running@1 & !running@0);
   next(sender.state@0) := (!(running@2 & !running@1 & !running@0) | !sender.state@1 & !sender.state@0 | !(!sender.state@1 & sender.state@0 & s2r_in.tag@1 & s2r_in.tag@0) & (!sender.state@1 & sender.state@0 & !(s2r_in.tag@1 & s2r_in.tag@0) | !(sender.state@1 & !sender.state@0 & !r2s_out.tag@1 & (r2s_out.tag@0 <-> sender.abp)) & (sender.state@1 & !sender.state@0 & (!r2s_out.tag@1 & (!r2s_out.tag@0 <-> sender.abp) | r2s_out.tag@1 & !r2s_out.tag@0) | !(sender.state@1 & !sender.state@0 & r2s_out.tag@1 & r2s_out.tag@0)))) & (sender.state@0 | running@2 & !running@1 & !running@0);
   next(sender.abp) := (!(running@2 & !running@1 & !running@0) | !(sender.abp <-> sender.state@1 & !sender.state@0 & !r2s_out.tag@1 & (r2s_out.tag@0 <-> sender.abp))) & (sender.abp | running@2 & !running@1 & !running@0);
   next(sender.data@1) := (!(running@2 & !running@1 & !running@0) | (.ORACLE0@1 | !(sender.state@1 & !sender.state@0 & !r2s_out.tag@1 & (r2s_out.tag@0 <-> sender.abp))) & (sender.data@1 | sender.state@1 & !sender.state@0 & !r2s_out.tag@1 & (r2s_out.tag@0 <-> sender.abp))) & (sender.data@1 | running@2 & !running@1 & !running@0);
   next(sender.data@0) := (!(running@2 & !running@1 & !running@0) | (.ORACLE0@0 | !(sender.state@1 & !sender.state@0 & !r2s_out.tag@1 & (r2s_out.tag@0 <-> sender.abp))) & (sender.data@0 | sender.state@1 & !sender.state@0 & !r2s_out.tag@1 & (r2s_out.tag@0 <-> sender.abp))) & (sender.data@0 | running@2 & !running@1 & !running@0);
-  init(s2r_in.tag@1) := 1;
-  init(s2r_in.tag@0) := 1;
-  init(s2r_out.tag@1) := 1;
-  init(s2r_out.tag@0) := 1;
-  init(receiver.state@1) := 0;
-  init(receiver.state@0) := 1;
-  init(receiver.abp) := 0;
+  init(s2r_in.tag@1) := TRUE;
+  init(s2r_in.tag@0) := TRUE;
+  init(s2r_out.tag@1) := TRUE;
+  init(s2r_out.tag@0) := TRUE;
+  init(receiver.state@1) := FALSE;
+  init(receiver.state@0) := TRUE;
+  init(receiver.abp) := FALSE;
   next(receiver.state@1) := (!(!receiver.state@1 & receiver.state@0 & !s2r_out.tag@1 & (receiver.abp <-> s2r_out.tag@0)) & (!receiver.state@1 & receiver.state@0 & (!s2r_out.tag@1 & (receiver.abp <-> !s2r_out.tag@0) | s2r_out.tag@1 & !s2r_out.tag@0) | 
     case
       !receiver.state@1 & receiver.state@0 & s2r_out.tag@1 & s2r_out.tag@0 : receiver.state@1;
-      !receiver.state@1 & !receiver.state@0 : 1;
-      receiver.state@1 & !receiver.state@0 & r2s_in.tag@1 & r2s_in.tag@0 : 0;
+      !receiver.state@1 & !receiver.state@0 : TRUE;
+      receiver.state@1 & !receiver.state@0 & r2s_in.tag@1 & r2s_in.tag@0 : FALSE;
       receiver.state@1 & !receiver.state@0 & !(r2s_in.tag@1 & r2s_in.tag@0) : receiver.state@1;
     esac) | running@2 | !running@1 | running@0) & (receiver.state@1 | !(running@2 | !running@1 | running@0));
   next(receiver.state@0) := (running@2 | !running@1 | running@0 | !(!receiver.state@1 & receiver.state@0 & !s2r_out.tag@1 & (receiver.abp <-> s2r_out.tag@0)) & !(!receiver.state@1 & receiver.state@0 & (!s2r_out.tag@1 & (receiver.abp <-> !s2r_out.tag@0) | s2r_out.tag@1 & !s2r_out.tag@0)) & 
     case
       !receiver.state@1 & receiver.state@0 & s2r_out.tag@1 & s2r_out.tag@0 : receiver.state@0;
-      !receiver.state@1 & !receiver.state@0 : 0;
-      receiver.state@1 & !receiver.state@0 & r2s_in.tag@1 & r2s_in.tag@0 : 1;
+      !receiver.state@1 & !receiver.state@0 : FALSE;
+      receiver.state@1 & !receiver.state@0 & r2s_in.tag@1 & r2s_in.tag@0 : TRUE;
       receiver.state@1 & !receiver.state@0 & !(r2s_in.tag@1 & r2s_in.tag@0) : receiver.state@0;
     esac) & (receiver.state@0 | !(running@2 | !running@1 | running@0));
   next(receiver.abp) := (running@2 | !running@1 | running@0 | (receiver.abp <-> receiver.state@1 | receiver.state@0)) & (receiver.abp | !(running@2 | !running@1 | running@0));
   next(receiver.data@1) := (running@2 | !running@1 | running@0 | (s2r_out.data@1 | !(!receiver.state@1 & receiver.state@0 & !s2r_out.tag@1 & (receiver.abp <-> s2r_out.tag@0))) & (receiver.data@1 | !receiver.state@1 & receiver.state@0 & !s2r_out.tag@1 & (receiver.abp <-> s2r_out.tag@0))) & (receiver.data@1 | !(running@2 | !running@1 | running@0));
   next(receiver.data@0) := (running@2 | !running@1 | running@0 | (s2r_out.data@0 | !(!receiver.state@1 & receiver.state@0 & !s2r_out.tag@1 & (receiver.abp <-> s2r_out.tag@0))) & (receiver.data@0 | !receiver.state@1 & receiver.state@0 & !s2r_out.tag@1 & (receiver.abp <-> s2r_out.tag@0))) & (receiver.data@0 | !(running@2 | !running@1 | running@0));
-  init(r2s_in.tag@1) := 1;
-  init(r2s_in.tag@0) := 1;
-  init(r2s_out.tag@1) := 1;
-  init(r2s_out.tag@0) := 1;
+  init(r2s_in.tag@1) := TRUE;
+  init(r2s_in.tag@0) := TRUE;
+  init(r2s_out.tag@1) := TRUE;
+  init(r2s_out.tag@0) := TRUE;
   next(r2s_out.tag@1) := (r2s_out.tag@1 & (!(r2s_out.tag@1 & r2s_out.tag@0) | !.ORACLE1 | r2s_in.tag@1) | running@2 | running@1 | !running@0) & (!(running@2 & !running@1 & !running@0) | r2s_out.tag@1 | sender.state@1 & !sender.state@0) & (r2s_out.tag@1 | running@2 & !running@1 & !running@0 | !(running@2 | running@1 | !running@0));
   next(r2s_out.tag@0) := (running@2 | running@1 | !running@0 | r2s_out.tag@0 & (.ORACLE1 & r2s_in.tag@0 | !(r2s_out.tag@1 & r2s_out.tag@0) | r2s_in.tag@1 & r2s_in.tag@0)) & (!(running@2 & !running@1 & !running@0) | r2s_out.tag@0 | sender.state@1 & !sender.state@0) & (r2s_out.tag@0 | running@2 & !running@1 & !running@0 | !(running@2 | running@1 | !running@0));
   next(r2s_in.tag@1) := (running@2 | (running@1 | !running@0 | r2s_in.tag@1 | r2s_out.tag@1 & r2s_out.tag@0 & !(r2s_in.tag@1 & r2s_in.tag@0)) & (!running@1 | running@0 | r2s_in.tag@1 & !(receiver.state@1 & !receiver.state@0 & r2s_in.tag@1 & r2s_in.tag@0))) & (r2s_in.tag@1 | !(running@2 | (running@1 <-> running@0)));

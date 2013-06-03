@@ -4,5 +4,5 @@ VAR
   y@1 : boolean; --TYPE-- a b c d
   y@0 : boolean;
 ASSIGN
-  y@1 := 1;
+  y@1 := TRUE;
   y@0 := x@0;

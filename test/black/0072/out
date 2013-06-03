@@ -4,7 +4,7 @@ VAR
   b@1 : boolean; --TYPE-- 0 1 foo
   b@0 : boolean;
 ASSIGN
-  b@1 := 0;
+  b@1 := FALSE;
   b@0 := a;
 INVAR
   !b@1 | !b@0

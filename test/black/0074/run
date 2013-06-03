@@ -7,5 +7,5 @@ ln -s ../../../bin/smvflatten .
 cd tmp
 
 ../../../../bin/smvflatten $* -enc ../in 1>log 2>err || exit 1
-cmp -s log ../in || exit 1
+cmp -s log ../out || exit 1
 exit 0

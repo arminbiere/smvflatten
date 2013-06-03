@@ -4,4 +4,4 @@ VAR
   a@1 : boolean;
   a@0 : boolean;
 INVAR
-  0
+  FALSE

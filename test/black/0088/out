@@ -6,7 +6,7 @@ VAR
   y@0 : boolean;
 ASSIGN
   y@2 := x@0;
-  y@1 := 0;
+  y@1 := FALSE;
   y@0 := !x@0;
 INVAR
   !y@2 | !y@1 & !y@0
