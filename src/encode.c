@@ -580,6 +580,8 @@ static Node * enc_carry(
 {
   Node * arg, * enc_x, * enc_y, * res, * carry, * a, * b, * c, * tmp;
 
+  assert (x_type == y_type);
+
   if(bit >= 0)
     {
       arg = combine(x, x_type, bit);
@@ -614,20 +616,23 @@ static Node * enc_add_aux(
   int bit,
   int subtract)
 {
-  Node * arg, * enc_x, * enc_y, * res, * carry;
+  Node * arg, * enc_x, * enc_y, * res, * carry, * type;
 
   assert(bit >= 0);
 
-  arg = combine(x, x_type, bit);
+  type = merge_type (x_type, y_type);
+
+  arg = combine(x, type, bit);
   enc_x = enc(context, arg);
   delete(arg);
 
-  arg = combine(y, x_type, bit);
+  arg = combine(y, type, bit);
   enc_y = enc(context, arg);
   delete(arg);
 
-  carry = enc_carry(context, x, y, x_type, y_type, bit - 1, subtract);
+  carry = enc_carry(context, x, y, type, type, bit - 1, subtract);
   res = new_simplify(IFF, carry, new_simplify(IFF, enc_x, enc_y));
+  delete (type);
 
   return res;
 }
