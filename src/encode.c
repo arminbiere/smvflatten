@@ -825,9 +825,10 @@ static Node * enc(EncContext * context, Node * arg)
 		break;
 	      
 	      case MINUS:
-		res = enc_add(context, car(node), cdr(node), bit, 1);
+		fprintf (stderr, "*** smvflatten: can not encode binary '-'\n");
+		exit (1);
 		break;
-	      
+
 	      case DEFINE:
 	      case ASSIGN:
 	        res = enc_assignments(context, node);
