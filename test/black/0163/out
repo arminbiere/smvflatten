@@ -1,14 +1,11 @@
 MODULE main
 VAR
-  a@2 : boolean; --TYPE-- 0..7
-  a@1 : boolean;
+  a@1 : boolean; --TYPE-- 2..5
   a@0 : boolean;
 ASSIGN
-  init(a@2) := 0;
-  init(a@1) := 0;
-  init(a@0) := 0;
-  next(a@2) := (!a@2 <-> a@1 & a@0) & (!a@2 | !a@1 | !a@0);
-  next(a@1) := (!a@2 | !a@1 | !a@0) & (!a@1 <-> a@0);
+  init(a@1) := FALSE;
+  init(a@0) := TRUE;
+  next(a@1) := !a@1 <-> a@0;
   next(a@0) := !a@0;
 SPEC
-  AG (!a@2 | !a@1 | !a@0)
+  AG (a@1 | a@0)

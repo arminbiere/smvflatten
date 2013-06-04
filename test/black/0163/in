@@ -2,8 +2,11 @@ MODULE main
 VAR
   a : 2..5;
 ASSIGN
+  init(a) := 3;
   next(a) :=
     case
       a = 5 : 2;
-      1 : a + 1;
+      TRUE : a + 1;
     esac;
+SPEC
+  AG !(a = 2)

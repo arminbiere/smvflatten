@@ -930,6 +930,22 @@ static Node * ns(int tag, Node * head, Node * tail)
 	    res = new_simplify(IFF, copy(car(head)), copy(cdr(head)));
 	    res = new_simplify(NOT, res, 0);
 	  }
+	else if (head->tag == IFF &&
+	         tail->tag == OR &&
+	         head->head == tail->head &&
+		 tail->tail->tag == NOT &&
+		 tail->tail->head == head->tail)
+	  {
+	    res = copy (head);
+	  }
+	else if (head->tag == OR &&
+	         tail->tag == IFF &&
+		 head->tail == tail->tail &&
+		 tail->head->tag == NOT &&
+		 tail->head->head == head->head)
+	  {
+	    res = copy (tail);
+	  }
 	else
 	if(simplification_level >= 2)
 	  {

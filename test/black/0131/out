@@ -3,8 +3,8 @@ VAR
   counter@1 : boolean; --TYPE-- 0..3
   counter@0 : boolean;
 ASSIGN
-  init(counter@1) := 0;
-  init(counter@0) := 0;
+  init(counter@1) := FALSE;
+  init(counter@0) := FALSE;
   next(counter@1) := counter@1 <-> !counter@0;
   next(counter@0) := !counter@0;
 COMPUTE MAX[!counter@1 & counter@0, !counter@1 & !counter@0]

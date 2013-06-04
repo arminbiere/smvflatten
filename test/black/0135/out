@@ -8,13 +8,13 @@ VAR
   c[1].b[0].a : boolean;
   c[1].b[1].a : boolean;
 ASSIGN
-  init(c[0].b[0].a) := 0;
+  init(c[0].b[0].a) := FALSE;
   next(c[0].b[0].a) := !c[0].b[0].a <-> !running@2 & !running@1 & running@0;
-  init(c[0].b[1].a) := 0;
+  init(c[0].b[1].a) := FALSE;
   next(c[0].b[1].a) := !c[0].b[1].a <-> !running@2 & running@1 & !running@0;
-  init(c[1].b[0].a) := 0;
+  init(c[1].b[0].a) := FALSE;
   next(c[1].b[0].a) := !c[1].b[0].a <-> !running@2 & running@1 & running@0;
-  init(c[1].b[1].a) := 0;
+  init(c[1].b[1].a) := FALSE;
   next(c[1].b[1].a) := !c[1].b[1].a <-> running@2 & !running@1 & !running@0;
 INVAR
   !running@2 | !running@1 & !running@0

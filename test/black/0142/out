@@ -2,4 +2,4 @@ MODULE main
 VAR
   a : boolean;
 ASSIGN
-  init(a) := 1;
+  init(a) := TRUE;

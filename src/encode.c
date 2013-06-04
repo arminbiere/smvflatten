@@ -621,6 +621,7 @@ static Node * enc_add_aux(
   assert(bit >= 0);
 
   type = merge_type (x_type, y_type);
+  assert (is_range_type(type));
 
   arg = combine(x, type, bit);
   enc_x = enc(context, arg);

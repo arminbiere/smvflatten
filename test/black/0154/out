@@ -4,9 +4,9 @@ VAR
   a@1 : boolean;
   a@0 : boolean;
 ASSIGN
-  init(a@2) := 1;
-  init(a@1) := 0;
-  init(a@0) := 0;
+  init(a@2) := TRUE;
+  init(a@1) := FALSE;
+  init(a@0) := FALSE;
 INVAR
   a@2 &
   !a@1

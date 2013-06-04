@@ -4,5 +4,5 @@ VAR
   r : boolean;
   s : boolean;
 ASSIGN
-  init(a) := 0;
+  init(a) := FALSE;
   next(a) := !a <-> !r & !s;

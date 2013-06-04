@@ -3,5 +3,5 @@ VAR
   a@1 : boolean; --TYPE-- 0..3
   a@0 : boolean;
 ASSIGN
-  next(a@1) := (!a@1 <-> a@0) & (!a@1 | !a@0);
+  next(a@1) := !a@1 <-> a@0;
   next(a@0) := !a@0;

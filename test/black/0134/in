@@ -2,7 +2,7 @@ MODULE p
 VAR
   e : boolean;
 ASSIGN
-  init(e) := 0;
+  init(e) := FALSE;
   next(e) := !e;
 MODULE m
 VAR
