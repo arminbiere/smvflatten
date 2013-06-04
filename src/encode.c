@@ -580,8 +580,6 @@ static Node * enc_carry(
 {
   Node * arg, * enc_x, * enc_y, * res, * carry, * a, * b, * c, * tmp;
 
-  assert (x_type == y_type);
-
   if(bit >= 0)
     {
       arg = combine(x, x_type, bit);
@@ -617,11 +615,25 @@ static Node * enc_add_aux(
   int subtract)
 {
   Node * arg, * enc_x, * enc_y, * res, * carry, * type;
+#ifndef NDEBUG
+  int l, r;
+#endif
 
   assert(bit >= 0);
 
   type = merge_type (x_type, y_type);
-  assert (is_range_type(type));
+  if (is_range_type(type))
+    range_bounds (type, &l, &r);
+  else
+    l = r = -1;
+
+  if (l) 
+    {
+      fputs(
+	"*** smvflatten: can only add/subtract range types starting at 0..\n",
+	stderr);
+      exit(1);
+    }
 
   arg = combine(x, type, bit);
   enc_x = enc(context, arg);

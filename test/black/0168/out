@@ -1,8 +1,13 @@
 MODULE main
 VAR
-  a@0 : boolean; --TYPE-- 1..2
+  a@1 : boolean; --TYPE-- 0..2
+  a@0 : boolean;
 ASSIGN
-  init(a@0) := FALSE;
+  init(a@1) := FALSE;
+  init(a@0) := TRUE;
+  next(a@1) := a@1 <-> a@0;
   next(a@0) := !a@0;
+INVAR
+  !a@1 | !a@0
 LTLSPEC
-  X G a@0
+  X G (a@1 | !a@0)
