@@ -3,5 +3,9 @@ VAR
   a@1 : boolean; --TYPE-- 0..3
   a@0 : boolean;
 ASSIGN
+  init(a@1) := TRUE;
+  init(a@0) := FALSE;
   next(a@1) := !a@1 <-> a@0;
   next(a@0) := !a@0;
+SPEC
+  AG (a@1 | !a@0)

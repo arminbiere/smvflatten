@@ -1,6 +1,6 @@
 MODULE main
 VAR
-  a : 0..5;
+  a : 1..5;
 ASSIGN
   init(a) := 3;
   next(a) :=
