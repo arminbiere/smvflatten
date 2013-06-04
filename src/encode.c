@@ -614,17 +614,48 @@ static Node * enc_add_aux(
   int bit,
   int subtract)
 {
-  Node * arg, * enc_x, * enc_y, * res, * carry;
+  Node * arg, * enc_x, * enc_y, * res, * carry, * type;
+  int xl, xr, yl, yr, l, r;
 
-  arg = combine(x, x_type, bit);
+  if (!is_range_type (x_type) || !is_range_type (y_type))
+    {
+      fprintf (stderr,
+        "*** smvflatten: can only add/subtract range types\n");
+      exit (1);
+    }
+
+  if (is_subtype (x_type, y_type)) type = y_type;
+  else if (is_subtype (y_type, x_type)) type = x_type;
+  else 
+    {
+      range_bounds (x_type, &xl, &xr);
+      range_bounds (y_type, &yl, &yr);
+      fprintf (stderr,
+        "*** smvflatten: can not add/subtract types %d..%d and %d..%d\n",
+	xl, xr, yl, yr);
+      exit (1);
+    }
+
+  assert (is_range_type (type));
+  range_bounds (type, &l, &r);
+
+  if (l)
+    {
+      fprintf (stderr,
+        "*** smflatten: can not add/subtract type %d..%d\n",
+	l, r);
+      exit (1);
+    }
+
+  arg = combine(x, type, bit);
   enc_x = enc(context, arg);
   delete(arg);
 
-  arg = combine(y, y_type, bit);
+  arg = combine(y, type, bit);
   enc_y = enc(context, arg);
   delete(arg);
 
-  carry = enc_carry(context, x, y, x_type, y_type, bit - 1, subtract);
+  carry = enc_carry(context, x, y, type, type, bit - 1, subtract);
   res = new_simplify(IFF, carry, new_simplify(IFF, enc_x, enc_y));
 
   return res;
