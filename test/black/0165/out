@@ -1,7 +1,13 @@
 MODULE main
 VAR
-  a@0 : boolean; --TYPE-- 2..3
-  b@0 : boolean; --TYPE-- 1..2
+  a@1 : boolean; --TYPE-- 1..3
+  a@0 : boolean;
+  b@1 : boolean; --TYPE-- 2..5
+  b@0 : boolean;
+ASSIGN
+  a@1 := !b@1 & b@0;
+  a@0 := !b@1 & !b@0;
+INVAR
+  !a@1 | !a@0
 SPEC
-  !a@0 &
-  (!a@0 <-> b@0)
+  AG ((b@1 | b@0) & (b@1 <-> b@0) | (!b@0 <-> a@1 | !a@0) | (a@1 <-> (b@1 <-> b@0)))

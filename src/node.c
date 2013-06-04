@@ -946,6 +946,10 @@ static Node * ns(int tag, Node * head, Node * tail)
 	  {
 	    res = copy (tail);
 	  }
+	else if (tail->tag == IFF && head == tail->head)
+	  {
+	    res = new_simplify (AND, copy (head), copy (tail->tail));
+	  }
 	else
 	if(simplification_level >= 2)
 	  {

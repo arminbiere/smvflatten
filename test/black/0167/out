@@ -1,5 +1,35 @@
 MODULE main
 VAR
-  a : boolean;
-ASSIGN
-  next(a) := !a;
+  a@14 : boolean; --TYPE-- 0..32767
+  a@13 : boolean;
+  a@12 : boolean;
+  a@11 : boolean;
+  a@10 : boolean;
+  a@9 : boolean;
+  a@8 : boolean;
+  a@7 : boolean;
+  a@6 : boolean;
+  a@5 : boolean;
+  a@4 : boolean;
+  a@3 : boolean;
+  a@2 : boolean;
+  a@1 : boolean;
+  a@0 : boolean;
+  b@14 : boolean; --TYPE-- 0..32767
+  b@13 : boolean;
+  b@12 : boolean;
+  b@11 : boolean;
+  b@10 : boolean;
+  b@9 : boolean;
+  b@8 : boolean;
+  b@7 : boolean;
+  b@6 : boolean;
+  b@5 : boolean;
+  b@4 : boolean;
+  b@3 : boolean;
+  b@2 : boolean;
+  b@1 : boolean;
+  b@0 : boolean;
+INVAR
+  ((((((((((((((!a@0 & b@0 | (a@1 <-> !b@1)) & ((a@1 <-> b@1) | !a@1 & b@1) | (a@2 <-> !b@2)) & ((a@2 <-> b@2) | !a@2 & b@2) | (a@3 <-> !b@3)) & ((a@3 <-> b@3) | !a@3 & b@3) | (a@4 <-> !b@4)) & ((a@4 <-> b@4) | !a@4 & b@4) | (a@5 <-> !b@5)) & ((a@5 <-> b@5) | !a@5 & b@5) | (a@6 <-> !b@6)) & ((a@6 <-> b@6) | !a@6 & b@6) | (a@7 <-> !b@7)) & ((a@7 <-> b@7) | !a@7 & b@7) | (a@8 <-> !b@8)) & ((a@8 <-> b@8) | !a@8 & b@8) | (a@9 <-> !b@9)) & ((a@9 <-> b@9) | !a@9 & b@9) | (a@10 <-> !b@10)) & ((a@10 <-> b@10) | !a@10 & b@10) | (a@11 <-> !b@11)) & ((a@11 <-> b@11) | !a@11 & b@11) | (a@12 <-> !b@12)) & ((a@12 <-> b@12) | !a@12 & b@12) | (a@13 <-> !b@13)) & ((a@13 <-> b@13) | !a@13 & b@13) | (a@14 <-> !b@14)) &
+  ((a@14 <-> b@14) | !a@14 & b@14)
