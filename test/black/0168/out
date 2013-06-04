@@ -1,0 +1,8 @@
+MODULE main
+VAR
+  a@0 : boolean; --TYPE-- 1..2
+ASSIGN
+  init(a@0) := FALSE;
+  next(a@0) := !a@0;
+LTLSPEC
+  X G a@0

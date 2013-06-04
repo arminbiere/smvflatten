@@ -1,0 +1,8 @@
+MODULE main
+VAR
+  a : { 1, 2 };
+ASSIGN
+  init (a) := 1;
+  next (a) := 3 - a;
+LTLSPEC
+  X G !(a = 1)
