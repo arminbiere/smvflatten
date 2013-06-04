@@ -2,6 +2,6 @@ MODULE main
 VAR
   a : { 0, 1, 2, 3 };
 ASSIGN
-  next (a) := 3 + (- a);
+  next (a) := 3 - a;
 LTLSPEC
   X G !(a = 1)
